@@ -1,6 +1,6 @@
-#include "Graphics.h"
+#include "Creator.h"
 
 int main() {
-  Graphics("output.ppm", 2000, 2000, 1000).draw();
+  Creator("output.ppm", 1000, 1000, 255).draw();
   return 0;
 }
