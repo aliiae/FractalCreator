@@ -1,4 +1,6 @@
 #include "Image.h"
+#include <cmath>
+#include <complex>
 #include <fstream>
 #include <iostream>
 
@@ -13,19 +15,15 @@ int Image::getBytesPerPixel() const { return bytesPerPixel_; }
 void Image::setBytesPerPixel(int BytesPerPixel) {
   bytesPerPixel_ = BytesPerPixel;
 }
-int Image::convertIndexTo1D(int &X, int &Y) const { return X * width_ + Y; }
-/**
- * Converts a [0,1] value to RGB.
- */
+int Image::convert2DIndexTo1D(int &X, int &Y) const { return X * width_ + Y; }
+
 utils::RGB Image::toRgb(double &ValuePercentage) {
-  auto SmoothedRgb =
-      utils::RGB{(int)(9 * (1 - ValuePercentage) * ValuePercentage *
-                       ValuePercentage * ValuePercentage * 255),
-                 (int)(15 * (1 - ValuePercentage) * (1 - ValuePercentage) *
-                       ValuePercentage * ValuePercentage * 255),
-                 (int)(8.5 * (1 - ValuePercentage) * (1 - ValuePercentage) *
-                       (1 - ValuePercentage * ValuePercentage * 255))};
-  return SmoothedRgb;
+  return utils::RGB{(int)(9 * (1 - ValuePercentage) * ValuePercentage *
+                          ValuePercentage * ValuePercentage * 255),
+                    (int)(15 * (1 - ValuePercentage) * (1 - ValuePercentage) *
+                          ValuePercentage * ValuePercentage * 255),
+                    (int)(8.5 * (1 - ValuePercentage) * (1 - ValuePercentage) *
+                          (1 - ValuePercentage * ValuePercentage * 255))};
 }
 
 void Image::save(const std::string &FilePath) {
@@ -37,7 +35,7 @@ void Image::save(const std::string &FilePath) {
            << " 255" << std::endl;
     for (int Ix = 0; Ix < width_; ++Ix)
       for (int Iy = 0; Iy < height_; ++Iy) {
-        Pixel = Image::toRgb(data_[convertIndexTo1D(Ix, Iy)]);
+        Pixel = Image::toRgb(data_[convert2DIndexTo1D(Ix, Iy)]);
         Output << Pixel.red << " " << Pixel.green << " " << Pixel.blue
                << std::endl;
       }
@@ -52,8 +50,8 @@ void Image::save(const std::string &FilePath) {
  * e.g. ImageObject(1,1) = 1;
  */
 double Image::operator()(int X, int Y) const {
-  return data_[convertIndexTo1D(X, Y)];
+  return data_[convert2DIndexTo1D(X, Y)];
 }
 double &Image::operator()(int X, int Y) {
-  return data_[convertIndexTo1D(X, Y)];
+  return data_[convert2DIndexTo1D(X, Y)];
 }

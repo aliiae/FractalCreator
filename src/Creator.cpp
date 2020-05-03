@@ -1,8 +1,6 @@
 #include "Creator.h"
 #include "Area.h"
-#include "BurningShipFractal.h"
 #include "Fractal.h"
-#include "MandelbrotSetFractal.h"
 #include <iostream>
 #include <memory>
 
@@ -15,18 +13,27 @@ void Creator::setImagePath(const std::string &ImagePath) {
   image_path_ = ImagePath;
 }
 
-void Creator::draw() {
-  Area<int> Screen(0, width_, 0, height_);
-  std::cout << "Generating a fractal with max " << max_iterations_
-            << " iterations";
+void Creator::draw(int SelectedTypeNumber) {
+  std::unique_ptr<FractalType> SelectedFractalType;
+  switch (SelectedTypeNumber) {
+  case 2: {
+    SelectedFractalType = std::make_unique<BurningShip>(max_iterations_);
+    break;
+  }
+  default:
+    SelectedFractalType = std::make_unique<MandelbrotSet>(max_iterations_);
+  }
+
+  std::cout << "Generating a " << SelectedFractalType->getName()
+            << " fractal with max " << max_iterations_ << " iterations";
+  Fractal NewFractal = Fractal(std::move(SelectedFractalType), max_iterations_);
   clock_t Start = clock();
+  Area<int> Screen(0, width_, 0, height_);
   Image Colors(width_, height_);
-  auto Fractal = BurningShipFractal(max_iterations_);
-//    auto Fractal = MandelbrotSetFractal(max_iterations_);
   for (int Ix = 0; Ix < Screen.width(); ++Ix)
     for (int Iy = 0; Iy < Screen.height(); ++Iy) {
       int Iterations =
-          Fractal.getIterations(utils::Coordinate{Iy, Ix}, Screen, Colors);
+          NewFractal.getIterations(utils::Coordinate{Iy, Ix}, Screen, Colors);
       Colors(Ix, Iy) = double(Iterations) / double(max_iterations_);
     }
   clock_t Stop = clock();

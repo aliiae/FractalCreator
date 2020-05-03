@@ -2,6 +2,7 @@
 #define FRACTALCREATOR_INCLUDE_IMAGE_H
 
 #include "utils.h"
+#include <complex>
 #include <vector>
 
 class Image {
@@ -23,7 +24,7 @@ private:
   int bytesPerPixel_{3};
   std::vector<double> data_;
   static utils::RGB toRgb(double &ValuePercentage);
-  int convertIndexTo1D(int &X, int &Y) const;
+  int convert2DIndexTo1D(int &X, int &Y) const;
 };
 
 #endif // FRACTALCREATOR_INCLUDE_IMAGE_H

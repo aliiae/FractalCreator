@@ -12,10 +12,10 @@ void Fractal::setMaxIterations(int NumberOfIterations) {
 std::complex<double> Fractal::scale(Area<int> &Screen,
                                     utils::Coordinate Coord) {
   return std::complex<double>(
-      this->getFractalArea().getXMin() +
-          Coord.x / (Screen.width() - 1.0) * this->getFractalArea().width(),
-      this->getFractalArea().getYMin() +
-          Coord.y / (Screen.height() - 1.0) * this->getFractalArea().height());
+      type_->getFractalArea().getXMin() +
+          Coord.x / (Screen.width() - 1.0) * type_->getFractalArea().width(),
+      type_->getFractalArea().getYMin() +
+          Coord.y / (Screen.height() - 1.0) * type_->getFractalArea().height());
 }
 
 /**
@@ -28,7 +28,7 @@ int Fractal::getIterations(utils::Coordinate Coord, Area<int> &Screen,
   std::complex<double> Z = 0;
   int Iterations = 0;
   while (Iterations < max_iterations_ && abs(Z) < 2.0) {
-    Z = this->calculateRecurrence(Z, C);
+    Z = type_->calculateRecurrence(Z, C);
     Iterations++;
   }
   return Iterations;

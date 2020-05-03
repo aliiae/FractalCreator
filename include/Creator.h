@@ -22,10 +22,11 @@ public:
         max_iterations_(30){};
   int getHeight() const;
   void setHeight(float Height);
-  void draw();
+  void draw(int SelectedTypeNumber);
   int getWidth() const;
   void setWidth(float Width);
   const std::string &getImagePath() const;
+
   void setImagePath(const std::string &ImagePath);
 
 private:
