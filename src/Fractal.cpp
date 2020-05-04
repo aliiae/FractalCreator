@@ -33,3 +33,6 @@ int Fractal::getIterations(utils::Coordinate Coord, Area<int> &Screen,
   }
   return Iterations;
 }
+void Fractal::zoom(double WindowRatio, Area<double> NewArea) {
+  type_->zoom(WindowRatio, NewArea);
+}

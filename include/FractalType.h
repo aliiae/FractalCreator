@@ -12,9 +12,11 @@ public:
       : max_iterations_(MaxIterations), order_(Order){};
   virtual ~FractalType() = default;
   virtual Area<double> getFractalArea() = 0;
+  virtual void setFractalArea(Area<double> &NewArea) = 0;
   virtual std::complex<double> calculateRecurrence(std::complex<double> Z,
                                                    std::complex<double> C) = 0;
   virtual FractalName getName() = 0;
+  void zoom(double WindowRatio, Area<double> NewArea);
 
 protected:
   int max_iterations_;
@@ -24,6 +26,7 @@ protected:
 class MandelbrotSet : public FractalType {
 public:
   using FractalType::FractalType;
+  void setFractalArea(Area<double> &FractalArea) override;
   Area<double> getFractalArea() override;
   std::complex<double> calculateRecurrence(std::complex<double> Z,
                                            std::complex<double> C) override;
@@ -36,6 +39,7 @@ private:
 class BurningShip : public FractalType {
 public:
   using FractalType::FractalType;
+  void setFractalArea(Area<double> &FractalArea) override;
   Area<double> getFractalArea() override;
   std::complex<double> calculateRecurrence(std::complex<double> Z,
                                            std::complex<double> C) override;

@@ -15,6 +15,7 @@ public:
   int getMaxIterations() const;
   void setMaxIterations(int NumberOfIterations);
   int getIterations(utils::Coordinate Coord, Area<int> &Screen, Image &Colors);
+  void zoom(double WindowRatio, Area<double> NewArea);
 
 private:
   std::unique_ptr<FractalType> type_;
