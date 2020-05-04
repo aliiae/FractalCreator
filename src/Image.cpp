@@ -21,7 +21,7 @@ void Image::save(const std::string &FilePath) {
   if (Output.is_open()) {
     Output << "P" << bytesPerPixel_ << "\n"
            << width_ << " " << height_ << "\n"
-           << " 255"
+           << "255"
            << "\n";
     for (int Ix = 0; Ix < width_; ++Ix)
       for (int Iy = 0; Iy < height_; ++Iy) {

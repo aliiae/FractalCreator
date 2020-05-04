@@ -20,7 +20,7 @@ public:
   void setWidth(int Width);
   [[nodiscard]] const std::string &getImagePath() const;
   void setImagePath(const std::string &ImagePath);
-  void draw(int SelectedTypeNumber, int SelectedOrder);
+  void draw(char SelectedTypeChar, int SelectedOrder);
 
 private:
   int width_;

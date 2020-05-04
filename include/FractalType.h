@@ -15,7 +15,7 @@ public:
   virtual void setFractalArea(Area<double> &NewArea) = 0;
   virtual std::complex<double> calculateRecurrence(std::complex<double> Z,
                                                    std::complex<double> C) = 0;
-  virtual FractalName getName() = 0;
+  virtual std::string getName() = 0;
   void zoom(double WindowRatio, Area<double> NewArea);
 
 protected:
@@ -30,7 +30,7 @@ public:
   Area<double> getFractalArea() override;
   std::complex<double> calculateRecurrence(std::complex<double> Z,
                                            std::complex<double> C) override;
-  FractalName getName() override;
+  std::string getName() override;
 
 private:
   Area<double> fractal_area_{-2.2, 1.2, -1.7, 1.7};
@@ -43,7 +43,7 @@ public:
   Area<double> getFractalArea() override;
   std::complex<double> calculateRecurrence(std::complex<double> Z,
                                            std::complex<double> C) override;
-  FractalName getName() override;
+  std::string getName() override;
 
 private:
   Area<double> fractal_area_{-2.5, 1.5, -2.2, 1.2};
