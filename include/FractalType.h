@@ -8,15 +8,17 @@ enum FractalName { MANDELBROT_SET, BURNING_SHIP };
 
 class FractalType {
 public:
-  explicit FractalType(int MaxIterations) : max_iterations_(MaxIterations){};
+  explicit FractalType(int MaxIterations, int Order)
+      : max_iterations_(MaxIterations), order_(Order){};
   virtual ~FractalType() = default;
   virtual Area<double> getFractalArea() = 0;
   virtual std::complex<double> calculateRecurrence(std::complex<double> Z,
                                                    std::complex<double> C) = 0;
   virtual FractalName getName() = 0;
 
-private:
+protected:
   int max_iterations_;
+  int order_;
 };
 
 class MandelbrotSet : public FractalType {
@@ -41,6 +43,7 @@ public:
 
 private:
   Area<double> fractal_area_{-2.5, 1.5, -2.2, 1.2};
+  static const std::complex<double> &ImaginaryOne;
 };
 
 #endif // FRACTALCREATOR_INCLUDE_FRACTALTYPE_H

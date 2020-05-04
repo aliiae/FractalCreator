@@ -16,19 +16,18 @@ public:
         max_iterations_(30){};
   int getHeight() const;
   void setHeight(int Height);
-  void draw(int SelectedTypeNumber);
   int getWidth() const;
   void setWidth(int Width);
   [[nodiscard]] const std::string &getImagePath() const;
-
   void setImagePath(const std::string &ImagePath);
+  void draw(int SelectedTypeNumber, int SelectedOrder);
 
 private:
   int width_;
   int height_;
   std::string image_path_;
   int max_iterations_;
-  utils::RGB toRgb(int Iterations) const;
+  [[nodiscard]] utils::RGB toRgb(int Iterations) const;
 };
 
 #endif // FRACTALCREATOR_INCLUDE_CREATOR_H

@@ -12,6 +12,6 @@ int main() {
               << "\n";
     std::cin >> SelectedTypeNumber;
   }
-  Creator("output.ppm", 1000, 1000, 512).draw(SelectedTypeNumber);
+  Creator("output.ppm", 1000, 1000, 512).draw(SelectedTypeNumber, 2);
   return 0;
 }

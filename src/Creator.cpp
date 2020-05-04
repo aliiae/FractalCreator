@@ -28,18 +28,19 @@ utils::RGB Creator::toRgb(int Iterations) const {
                     (int)(15 * (1 - T) * (1 - T) * T * T * 255),
                     (int)(9 * (1 - T) * T * T * T * 255)};
 }
-void Creator::draw(int SelectedTypeNumber) {
+void Creator::draw(int SelectedTypeNumber, int SelectedOrder) {
   std::unique_ptr<FractalType> SelectedFractalType;
   if (SelectedTypeNumber == 2) {
-    SelectedFractalType = std::make_unique<BurningShip>(max_iterations_);
+    SelectedFractalType =
+        std::make_unique<BurningShip>(max_iterations_, SelectedOrder);
   } else {
-    SelectedFractalType = std::make_unique<MandelbrotSet>(max_iterations_);
+    SelectedFractalType =
+        std::make_unique<MandelbrotSet>(max_iterations_, SelectedOrder);
   }
-
   std::cout << "Generating a " << SelectedFractalType->getName()
-            << " fractal with max " << max_iterations_ << " iterations";
+            << " fractal of order " << SelectedOrder << " with max "
+            << max_iterations_ << " iterations";
   Fractal NewFractal = Fractal(std::move(SelectedFractalType), max_iterations_);
-
   auto Start = Clock::now();
   Area<int> Screen(0, width_, 0, height_);
   Image Colors(width_, height_);
