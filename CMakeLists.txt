@@ -8,5 +8,5 @@ set(CMAKE_CXX_FLAGS, "${CXX_FLAGS}")
 project(FractalCreator)
 include_directories(include)
 add_executable(FractalCreator src/main.cpp src/Creator.cpp include/Creator.h include/utils.h
-        include/Area.h src/Image.cpp include/Image.h include/Fractal.h src/Fractal.cpp
-        include/FractalType.h src/FractalType.cpp)
+        include/Area.h src/Image.cpp include/Image.h
+        include/Fractal.h src/Fractal.cpp)

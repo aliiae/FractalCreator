@@ -1,36 +1,46 @@
 #include "Fractal.h"
-#include "complex"
 
-int Fractal::getMaxIterations() const { return max_iterations_; }
-void Fractal::setMaxIterations(int NumberOfIterations) {
-  max_iterations_ = NumberOfIterations;
+void Fractal::zoom(const double WindowRatio, Area<double> NewArea) {
+  NewArea.setYMax(NewArea.getYMin() + (NewArea.width() * WindowRatio));
+  setZoomArea(NewArea);
 }
-
-/**
- * Convert a pixel coordinate to the complex domain.
- */
-std::complex<double> Fractal::scale(Area<int> &Screen,
-									utils::Coordinate Coord) {
-  return std::complex<double>(
-	  type_->getFractalArea().getXMin() + Coord.x / (double)Screen.width() * type_->getFractalArea().width(),
-	  type_->getFractalArea().getYMin() + Coord.y / (double)Screen.height() * type_->getFractalArea().height());
-}
-
-/**
- * Counts the number of iterations of the recurrence relation at the given point
- * until convergence or max iterations.
- */
-int Fractal::getIterations(utils::Coordinate Coord, Area<int> &Screen,
-						   Image &Colors) {
-  std::complex<double> C = scale(Screen, Coord);
-  std::complex<double> Z = 0;
-  int Iterations = 0;
-  while (Iterations < max_iterations_ && abs(Z) < 2.0) {
-	Z = type_->calculateRecurrence(Z, C);
-	Iterations++;
+void Fractal::setOrder(int Order) { order_ = Order; }
+int Fractal::getOrder() const { return order_; }
+std::complex<double>
+MandelbrotSet::calculateRecurrence(std::complex<double> Z,
+                                   std::complex<double> C) {
+  for (int Power = 1; Power < order_; Power++) {
+    Z *= Z;
   }
-  return Iterations;
+  return Z + C;
 }
-void Fractal::zoom(double WindowRatio, Area<double> NewArea) {
-  type_->zoom(WindowRatio, NewArea);
+Area<double> MandelbrotSet::getZoomArea() { return zoom_area_; }
+void MandelbrotSet::setZoomArea(Area<double> &FractalArea) {
+  zoom_area_ = FractalArea;
+}
+std::string MandelbrotSet::getName() { return name_; }
+std::complex<double> BurningShip::calculateRecurrence(std::complex<double> Z,
+                                                      std::complex<double> C) {
+  Z = abs(Z.real()) + ImaginaryOne * abs(Z.imag());
+  for (int Power = 1; Power < order_; Power++) {
+    Z *= abs(Z.real()) + ImaginaryOne * abs(Z.imag());
+  }
+  return Z + C;
+}
+Area<double> BurningShip::getZoomArea() { return zoom_area_; }
+void BurningShip::setZoomArea(Area<double> &FractalArea) {
+  zoom_area_ = FractalArea;
+}
+std::string BurningShip::getName() { return name_; }
+const std::complex<double> &BurningShip::ImaginaryOne{0, 1.0};
+
+int Fractal::getIterations(std::complex<double> C) {
+  std::complex<double> Z = C;
+  for (int Iteration = 0; Iteration < max_iterations_; ++Iteration) {
+    Z = calculateRecurrence(Z, C);
+    if (abs(Z) >= 2.0) {
+      return Iteration;
+    }
+  }
+  return max_iterations_;
 }

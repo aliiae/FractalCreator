@@ -1,6 +1,6 @@
 #include "Creator.h"
-#include "Area.h"
 #include "Fractal.h"
+#include <Image.h>
 #include <iostream>
 #include <memory>
 
@@ -11,10 +11,6 @@ int Creator::getWidth() const { return width_; }
 void Creator::setWidth(int Width) { width_ = Width; }
 int Creator::getHeight() const { return height_; }
 void Creator::setHeight(int Height) { height_ = Height; }
-const std::string &Creator::getImagePath() const { return image_path_; }
-void Creator::setImagePath(const std::string &ImagePath) {
-  image_path_ = ImagePath;
-}
 
 /**
  * Calculate Bernstein polynomials mapping an integer to a continuous RGB space.
@@ -25,41 +21,42 @@ void Creator::setImagePath(const std::string &ImagePath) {
 utils::RGB Creator::toRgb(int Iterations) const {
   double T = double(Iterations) / double(max_iterations_);
   return utils::RGB{(int)(8.5 * (1 - T) * (1 - T) * (1 - T) * T * 255),
-					(int)(15 * (1 - T) * (1 - T) * T * T * 255),
-					(int)(9 * (1 - T) * T * T * T * 255)};
+                    (int)(15 * (1 - T) * (1 - T) * T * T * 255),
+                    (int)(9 * (1 - T) * T * T * T * 255)};
 }
-void Creator::draw(std::string SelectedTypeChar, int SelectedOrder) {
-  std::unique_ptr<FractalType> SelectedFractalType;
-  if (SelectedTypeChar.at(0)=='B') {
-	SelectedFractalType =
-		std::make_unique<BurningShip>(max_iterations_, SelectedOrder);
-  } else {
-	SelectedFractalType =
-		std::make_unique<MandelbrotSet>(max_iterations_, SelectedOrder);
-  }
-  std::cout << "Generating a " << SelectedFractalType->getName()
-			<< " fractal of order " << SelectedOrder << " with max "
-			<< max_iterations_ << " iterations";
+
+void Creator::draw() {
+  std::cout << "Generating a " << fractal_->getName() << " fractal of order "
+            << fractal_->getOrder() << " with max " << max_iterations_
+            << " iterations";
   std::cout.flush();
   auto Start = Clock::now();
-  Area<int> Screen(0, width_, 0, height_);
   Image Colors(width_, height_);
-  Fractal NewFractal = Fractal(std::move(SelectedFractalType), max_iterations_);
-  for (int Row = 0; Row < Screen.height(); ++Row)
-	for (int Col = 0; Col < Screen.width(); ++Col) {
-	  int Iterations =
-		  NewFractal.getIterations(utils::Coordinate{Col, Row}, Screen, Colors);
-	  Colors(Row, Col) = toRgb(Iterations);
-	}
+  for (int Row = 0; Row < height_; ++Row) {
+    double ImaginaryPart = convertY(Row);
+    for (int Col = 0; Col < width_; ++Col) {
+      double RealPart = convertX(Col);
+      std::complex<double> C = std::complex<double>{RealPart, ImaginaryPart};
+      int Iterations = fractal_->getIterations(C);
+      Colors(Row, Col) = toRgb(Iterations);
+    }
+  }
   Seconds ElapsedSeconds = Clock::now() - Start;
-  std::cout << " (" << ElapsedSeconds.count() << " seconds)"
-			<< "\n";
+  std::cout << " (" << ElapsedSeconds.count() << " seconds)" << std::endl;
 
   std::cout << "Saving to " << image_path_;
   std::cout.flush();
   Start = Clock::now();
   Colors.save(image_path_);
   ElapsedSeconds = Clock::now() - Start;
-  std::cout << " (" << ElapsedSeconds.count() << " seconds)"
-			<< "\n";
+  std::cout << " (" << ElapsedSeconds.count() << " seconds)" << std::endl;
 }
+double Creator::convertY(int Row) const {
+  return fractal_->getZoomArea().getYMin() +
+         Row / (double)height_ * fractal_->getZoomArea().height();
+}
+double Creator::convertX(int Col) const {
+  return fractal_->getZoomArea().getXMin() +
+         Col / (double)width_ * fractal_->getZoomArea().width();
+}
+const std::unique_ptr<Fractal> &Creator::getFractal() const { return fractal_; }
