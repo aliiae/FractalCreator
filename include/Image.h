@@ -12,18 +12,17 @@ public:
   void setWeight(int Weight);
   int getHeight() const;
   void setHeight(int Height);
-  double &operator()(int X, int Y);
-  double operator()(int X, int Y) const;
   int getBytesPerPixel() const;
   void setBytesPerPixel(int BytesPerPixel);
+  utils::RGB &operator()(int X, int Y);
+  utils::RGB operator()(int X, int Y) const;
   void save(const std::string &FilePath);
 
 private:
   int width_;
   int height_;
   int bytesPerPixel_{3};
-  std::vector<double> data_;
-  static utils::RGB toRgb(double &ValuePercentage);
+  std::vector<utils::RGB> data_;
   int convert2DIndexTo1D(int &X, int &Y) const;
 };
 

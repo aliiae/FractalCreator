@@ -8,8 +8,8 @@ enum FractalName { MANDELBROT_SET, BURNING_SHIP };
 
 class FractalType {
 public:
-  FractalType(int MaxIterations) : max_iterations_(MaxIterations){};
-  virtual ~FractalType() {}
+  explicit FractalType(int MaxIterations) : max_iterations_(MaxIterations){};
+  virtual ~FractalType() = default;
   virtual Area<double> getFractalArea() = 0;
   virtual std::complex<double> calculateRecurrence(std::complex<double> Z,
                                                    std::complex<double> C) = 0;
@@ -28,7 +28,7 @@ public:
   FractalName getName() override;
 
 private:
-  Area<double> fractal_area_{-2.5, 1, -1, 1};
+  Area<double> fractal_area_{-2.2, 1.2, -1.7, 1.7};
 };
 
 class BurningShip : public FractalType {
@@ -40,7 +40,7 @@ public:
   FractalName getName() override;
 
 private:
-  Area<double> fractal_area_{-2.5, 1.5, -2.5, 1.5};
+  Area<double> fractal_area_{-2.5, 1.5, -2.2, 1.2};
 };
 
 #endif // FRACTALCREATOR_INCLUDE_FRACTALTYPE_H

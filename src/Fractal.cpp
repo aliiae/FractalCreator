@@ -13,9 +13,9 @@ std::complex<double> Fractal::scale(Area<int> &Screen,
                                     utils::Coordinate Coord) {
   return std::complex<double>(
       type_->getFractalArea().getXMin() +
-          Coord.x / (Screen.width() - 1.0) * type_->getFractalArea().width(),
+          Coord.x / (double)Screen.width() * type_->getFractalArea().width(),
       type_->getFractalArea().getYMin() +
-          Coord.y / (Screen.height() - 1.0) * type_->getFractalArea().height());
+          Coord.y / (double)Screen.height() * type_->getFractalArea().height());
 }
 
 /**
