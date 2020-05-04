@@ -1,6 +1,4 @@
 #include "Image.h"
-#include <cmath>
-#include <complex>
 #include <fstream>
 #include <iostream>
 
@@ -17,27 +15,18 @@ void Image::setBytesPerPixel(int BytesPerPixel) {
 }
 int Image::convert2DIndexTo1D(int &X, int &Y) const { return X * width_ + Y; }
 
-utils::RGB Image::toRgb(double &ValuePercentage) {
-  return utils::RGB{(int)(9 * (1 - ValuePercentage) * ValuePercentage *
-                          ValuePercentage * ValuePercentage * 255),
-                    (int)(15 * (1 - ValuePercentage) * (1 - ValuePercentage) *
-                          ValuePercentage * ValuePercentage * 255),
-                    (int)(8.5 * (1 - ValuePercentage) * (1 - ValuePercentage) *
-                          (1 - ValuePercentage * ValuePercentage * 255))};
-}
-
 void Image::save(const std::string &FilePath) {
   std::ofstream Output(FilePath, std::ios::binary);
   utils::RGB Pixel{};
   if (Output.is_open()) {
     Output << "P" << bytesPerPixel_ << "\n"
            << width_ << " " << height_ << "\n"
-           << " 255" << "\n";
+           << " 255"
+           << "\n";
     for (int Ix = 0; Ix < width_; ++Ix)
       for (int Iy = 0; Iy < height_; ++Iy) {
-        Pixel = Image::toRgb(data_[convert2DIndexTo1D(Ix, Iy)]);
-        Output << Pixel.red << " " << Pixel.green << " " << Pixel.blue
-               << "\n";
+        Pixel = data_[convert2DIndexTo1D(Ix, Iy)];
+        Output << Pixel.red << " " << Pixel.green << " " << Pixel.blue << "\n";
       }
     Output.close();
   } else {
@@ -49,9 +38,9 @@ void Image::save(const std::string &FilePath) {
  * Overloaded operators to get and set 2D indices into the underlying 1D matrix,
  * e.g. ImageObject(1,1) = 1;
  */
-double Image::operator()(int X, int Y) const {
+utils::RGB Image::operator()(int X, int Y) const {
   return data_[convert2DIndexTo1D(X, Y)];
 }
-double &Image::operator()(int X, int Y) {
+utils::RGB &Image::operator()(int X, int Y) {
   return data_[convert2DIndexTo1D(X, Y)];
 }
