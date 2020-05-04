@@ -7,6 +7,8 @@
 enum FractalName { MANDELBROT_SET, BURNING_SHIP };
 
 class FractalType {
+  friend class Fractal;
+
 public:
   explicit FractalType(int MaxIterations, int Order)
       : max_iterations_(MaxIterations), order_(Order){};

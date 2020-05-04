@@ -13,7 +13,7 @@ int Image::getBytesPerPixel() const { return bytesPerPixel_; }
 void Image::setBytesPerPixel(int BytesPerPixel) {
   bytesPerPixel_ = BytesPerPixel;
 }
-int Image::convert2DIndexTo1D(int &X, int &Y) const { return X * width_ + Y; }
+int Image::convert2DIndexTo1D(int &X, int &Y) const { return X * height_ + Y; }
 
 void Image::save(const std::string &FilePath) {
   std::ofstream Output(FilePath, std::ios::binary);
@@ -23,9 +23,9 @@ void Image::save(const std::string &FilePath) {
            << width_ << " " << height_ << "\n"
            << "255"
            << "\n";
-    for (int Ix = 0; Ix < width_; ++Ix)
-      for (int Iy = 0; Iy < height_; ++Iy) {
-        Pixel = data_[convert2DIndexTo1D(Ix, Iy)];
+    for (int Row = 0; Row < height_; ++Row)
+      for (int Col = 0; Col < width_; ++Col) {
+        Pixel = data_[convert2DIndexTo1D(Row, Col)];
         Output << Pixel.red << " " << Pixel.green << " " << Pixel.blue << "\n";
       }
     Output.close();
