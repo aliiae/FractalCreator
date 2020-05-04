@@ -4,15 +4,8 @@
 
 Image::Image(int Width, int Height)
     : width_(Width), height_(Height), data_(Height * Width) {}
-
 int Image::getWidth() const { return width_; }
-void Image::setWeight(int Weight) { width_ = Weight; }
 int Image::getHeight() const { return height_; }
-void Image::setHeight(int Height) { height_ = Height; }
-int Image::getBytesPerPixel() const { return bytesPerPixel_; }
-void Image::setBytesPerPixel(int BytesPerPixel) {
-  bytesPerPixel_ = BytesPerPixel;
-}
 int Image::convert2DIndexTo1D(int &X, int &Y) const { return X * height_ + Y; }
 
 void Image::save(const std::string &FilePath) {

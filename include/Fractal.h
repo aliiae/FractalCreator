@@ -10,25 +10,23 @@ class Fractal {
 public:
   explicit Fractal(int MaxIterations) : max_iterations_(MaxIterations){};
   virtual ~Fractal() = default;
+  Fractal(const Fractal &Other);
+  virtual Fractal &operator=(const Fractal &Other);
+
   virtual Area<double> getZoomArea() = 0;
   virtual void setZoomArea(Area<double> &NewArea) = 0;
   virtual std::complex<double> calculateRecurrence(std::complex<double> Z,
                                                    std::complex<double> C) = 0;
+  [[maybe_unused]] void zoom(double WindowRatio, Area<double> NewArea);
   virtual std::string getName() = 0;
-  void zoom(double WindowRatio, Area<double> NewArea);
+  int getMaxIterations() const;
   int getIterations(std::complex<double> C);
-
-protected:
-  int max_iterations_;
-
-public:
+  void setOrder(int Order);
   int getOrder() const;
 
 protected:
   int order_;
-
-public:
-  void setOrder(int Order);
+  int max_iterations_;
 };
 
 class MandelbrotSet : public Fractal {

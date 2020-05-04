@@ -1,15 +1,15 @@
 #include "Creator.h"
 #include <iostream>
 #include <unordered_map>
-const int MaxIterations = 256;
+const int MaxIterations = 512;
 const int ImageWidth = 1000;
 const int ImageHeight = 1000;
 
 int main() {
   std::string SelectedTypeLetter;
   int SelectedOrder;
-  std::unique_ptr<Fractal> SelectedFractal;
-  std::cout << "Please enter the letter of selected fractal type [M,B]:"
+  std::shared_ptr<Fractal> SelectedFractal;
+  std::cout << "Please choose the fractal type [M,B]:"
             << "\n"
             << "1. [M]andelbrot Set (default)"
             << "\n"
@@ -20,11 +20,11 @@ int main() {
       std::cout << "Setting the fractal type to the default value M"
                 << std::endl;
     }
-    SelectedFractal = std::make_unique<MandelbrotSet>(MaxIterations);
+    SelectedFractal = std::make_shared<MandelbrotSet>(MaxIterations);
   } else {
-    SelectedFractal = std::make_unique<BurningShip>(MaxIterations);
+    SelectedFractal = std::make_shared<BurningShip>(MaxIterations);
   }
-  std::cout << "Please enter the fractal order (default 2):" << std::endl;
+  std::cout << "Please choose the fractal order (default 2):" << std::endl;
   std::cin >> SelectedOrder;
   if (SelectedOrder <= 0) {
     std::cout << "Setting the order to the default value 2" << std::endl;
@@ -32,7 +32,7 @@ int main() {
   }
   SelectedFractal->setOrder(SelectedOrder);
   Creator FractalCreator = Creator("output.ppm", ImageWidth, ImageHeight,
-                                   MaxIterations, std::move(SelectedFractal));
+                                   MaxIterations, SelectedFractal);
   FractalCreator.draw();
   return 0;
 }

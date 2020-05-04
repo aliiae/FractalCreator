@@ -1,11 +1,13 @@
 #include "Fractal.h"
 
-void Fractal::zoom(const double WindowRatio, Area<double> NewArea) {
+[[maybe_unused]] void Fractal::zoom(const double WindowRatio,
+                                    Area<double> NewArea) {
   NewArea.setYMax(NewArea.getYMin() + (NewArea.width() * WindowRatio));
   setZoomArea(NewArea);
 }
 void Fractal::setOrder(int Order) { order_ = Order; }
 int Fractal::getOrder() const { return order_; }
+int Fractal::getMaxIterations() const { return max_iterations_; }
 std::complex<double>
 MandelbrotSet::calculateRecurrence(std::complex<double> Z,
                                    std::complex<double> C) {
@@ -43,4 +45,15 @@ int Fractal::getIterations(std::complex<double> C) {
     }
   }
   return max_iterations_;
+}
+Fractal::Fractal(const Fractal &Other) {
+  max_iterations_ = Other.max_iterations_;
+  order_ = Other.order_;
+}
+Fractal &Fractal::operator=(const Fractal &Other) {
+  if (this != &Other) {
+    max_iterations_ = Other.max_iterations_;
+    order_ = Other.order_;
+  }
+  return *this;
 }

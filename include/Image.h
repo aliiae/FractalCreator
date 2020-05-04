@@ -9,11 +9,7 @@ class Image {
 public:
   Image(int Width, int Height);
   int getWidth() const;
-  void setWeight(int Weight);
   int getHeight() const;
-  void setHeight(int Height);
-  int getBytesPerPixel() const;
-  void setBytesPerPixel(int BytesPerPixel);
   utils::RGB &operator()(int X, int Y);
   utils::RGB operator()(int X, int Y) const;
   void save(const std::string &FilePath);
