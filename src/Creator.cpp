@@ -38,11 +38,11 @@ void Creator::draw(int SelectedTypeNumber) {
     }
   clock_t Stop = clock();
   std::cout << " (" << (double(Stop - Start) / CLOCKS_PER_SEC) << " seconds)"
-            << std::endl;
+			<< "\n";
   std::cout << "Saving to " << image_path_;
   Start = clock();
   Colors.save(image_path_);
   Stop = clock();
   std::cout << " (" << (double(Stop - Start) / CLOCKS_PER_SEC) << " seconds)"
-            << std::endl;
+            << "\n";
 }

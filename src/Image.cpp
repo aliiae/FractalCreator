@@ -30,14 +30,14 @@ void Image::save(const std::string &FilePath) {
   std::ofstream Output(FilePath, std::ios::binary);
   utils::RGB Pixel{};
   if (Output.is_open()) {
-    Output << "P" << bytesPerPixel_ << std::endl
-           << width_ << " " << height_ << std::endl
-           << " 255" << std::endl;
+    Output << "P" << bytesPerPixel_ << "\n"
+           << width_ << " " << height_ << "\n"
+           << " 255" << "\n";
     for (int Ix = 0; Ix < width_; ++Ix)
       for (int Iy = 0; Iy < height_; ++Iy) {
         Pixel = Image::toRgb(data_[convert2DIndexTo1D(Ix, Iy)]);
         Output << Pixel.red << " " << Pixel.green << " " << Pixel.blue
-               << std::endl;
+               << "\n";
       }
     Output.close();
   } else {
