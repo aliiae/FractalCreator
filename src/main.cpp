@@ -8,7 +8,7 @@ const int ImageHeight = 1000;
 int main() {
   std::string SelectedTypeLetter;
   int SelectedOrder;
-  std::shared_ptr<Fractal> SelectedFractal;
+  std::unique_ptr<Fractal> SelectedFractal;
   std::cout << "Please choose the fractal type [M,B]:"
             << "\n"
             << "1. [M]andelbrot Set (default)"
@@ -20,9 +20,9 @@ int main() {
       std::cout << "Setting the fractal type to the default value M"
                 << std::endl;
     }
-    SelectedFractal = std::make_shared<MandelbrotSet>(MaxIterations);
+    SelectedFractal = std::make_unique<MandelbrotSet>(MaxIterations);
   } else {
-    SelectedFractal = std::make_shared<BurningShip>(MaxIterations);
+    SelectedFractal = std::make_unique<BurningShip>(MaxIterations);
   }
   std::cout << "Please choose the fractal order (default 2):" << std::endl;
   std::cin >> SelectedOrder;
@@ -32,7 +32,7 @@ int main() {
   }
   SelectedFractal->setOrder(SelectedOrder);
   Creator FractalCreator = Creator("output.ppm", ImageWidth, ImageHeight,
-                                   MaxIterations, SelectedFractal);
+                                   MaxIterations, std::move(SelectedFractal));
   FractalCreator.draw();
   return 0;
 }

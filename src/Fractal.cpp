@@ -7,9 +7,7 @@
 }
 void Fractal::setOrder(int Order) { order_ = Order; }
 int Fractal::getOrder() const { return order_; }
-int Fractal::getMaxIterations() const {
-  return max_iterations_;
-}
+int Fractal::getMaxIterations() const { return max_iterations_; }
 std::complex<double>
 MandelbrotSet::calculateRecurrence(std::complex<double> Z,
                                    std::complex<double> C) {

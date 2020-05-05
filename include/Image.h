@@ -7,20 +7,14 @@
 
 class Image {
 public:
-  Image(int Width, int Height);
-  int getWidth() const;
-  int getHeight() const;
-  utils::RGB &operator()(int X, int Y);
-  utils::RGB operator()(int X, int Y) const;
+  Image(int Width, int Height, std::vector<std::vector<utils::RGB>> &Colours);
   void save(const std::string &FilePath);
-  utils::RGB toRgb(double T) const;
 
 private:
   int width_;
   int height_;
   int bytesPerPixel_{3};
-  std::vector<utils::RGB> data_;
-  int convert2DIndexTo1D(int &X, int &Y) const;
+  std::vector<std::vector<utils::RGB>> colours_;
 };
 
 #endif // FRACTALCREATOR_INCLUDE_IMAGE_H
