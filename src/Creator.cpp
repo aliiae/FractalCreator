@@ -1,7 +1,7 @@
 #include "Creator.h"
 #include <Image.h>
 #include <iostream>
-#include <memory>
+#include <future>
 
 using Clock = std::chrono::system_clock;
 using Seconds = std::chrono::duration<double>;
@@ -43,7 +43,7 @@ void Creator::draw() {
           std::complex<double>{RealPart, ImaginaryPart});
       double ScaledIterations =
           double(Iterations) / double(fractal_->getMaxIterations());
-      Result[Col] = std::move(toRgb(ScaledIterations));
+      Result[Col] = toRgb(ScaledIterations);
     }
     return Result;
   };
@@ -55,12 +55,17 @@ void Creator::draw() {
   }
   Seconds End = Clock::now() - Start;
   std::cout << " (" << End.count() << " seconds)" << std::endl;
-
-  std::cout << "Saving to " << image_path_;
+  std::string Path = fractal_->getName() + ".ppm";
+  std::cout << "Saving to " << Path;
   std::cout.flush();
   Start = Clock::now();
   Image ResultImage = Image(width_, height_, rows_);
-  ResultImage.save(image_path_);
+  ResultImage.save(Path);
   End = Clock::now() - Start;
   std::cout << " (" << End.count() << " seconds)" << std::endl;
+}
+Creator::Creator(int Width, int Height, int MaxIterations, std::unique_ptr<Fractal> Fractal)
+	: width_(Width), height_(Height), max_iterations_(MaxIterations), fractal_(std::move(Fractal)) {
+  rows_.resize(height_);
+  future_rows_.resize(height_);
 }

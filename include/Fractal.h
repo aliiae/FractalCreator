@@ -12,6 +12,7 @@ public:
   virtual ~Fractal() = default;
   virtual Area<double> getZoomArea() = 0;
   virtual void setZoomArea(Area<double> &NewArea) = 0;
+  std::string getZoomAreaString();
   virtual std::complex<double> calculateRecurrence(std::complex<double> Z,
                                                    std::complex<double> C) = 0;
   virtual std::string getName() = 0;
@@ -20,6 +21,7 @@ public:
   void setOrder(int Order);
   int getOrder() const;
   int getMaxIterations() const;
+
 
 protected:
   int order_;

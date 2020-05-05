@@ -10,20 +10,14 @@
 
 class Creator {
 public:
-  Creator(std::string ImagePath, int Width, int Height, int MaxIterations,
-          std::unique_ptr<Fractal> Fractal)
-      : image_path_(std::move(ImagePath)), width_(Width), height_(Height),
-        max_iterations_(MaxIterations), fractal_(std::move(Fractal)) {
-    rows_.resize(height_);
-    future_rows_.resize(height_);
-  };
+  Creator(int Width, int Height, int MaxIterations,
+          std::unique_ptr<Fractal> Fractal);;
   void draw();
 
 private:
   int width_;
   int height_;
   int max_iterations_;
-  std::string image_path_;
   std::unique_ptr<Fractal> fractal_;
   std::vector<std::future<std::vector<utils::RGB>>> future_rows_;
   std::vector<std::vector<utils::RGB>> rows_;

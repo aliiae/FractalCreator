@@ -14,7 +14,7 @@ public:
 private:
   Area<double> zoom_area_{-2.5, 1.5, -2.2, 1.2};
   static const std::complex<double> &ImaginaryOne;
-  std::string name_{"Burning Ship"};
+  std::string name_{"Burning_Ship"};
 };
 
 #endif //FRACTALCREATOR_INCLUDE_BURNINGSHIP_H
