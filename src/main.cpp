@@ -1,7 +1,7 @@
 #include "Creator.h"
 #include <iostream>
 #include <unordered_map>
-const int MaxIterations = 512;
+const int MaxIterations = 256;
 const int ImageWidth = 1000;
 const int ImageHeight = 1000;
 

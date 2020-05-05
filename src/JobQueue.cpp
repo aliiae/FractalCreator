@@ -16,26 +16,24 @@ int JobQueue::workerStart() {
  * Notify the master as soon as there are no more active jobs.
  */
 void JobQueue::workerDone() {
-  if (!--number_of_active_jobs) {
+  if (!--number_of_active_jobs)
     done.notify_one();
-  }
 }
 /**
- * Notify workers to start jobs.
+ * Notify workers when the master starts.
  */
 void JobQueue::masterStart(int NumJobs) {
   std::unique_lock<std::mutex> Waiter(queue_lock);
   number_of_pending_jobs = number_of_active_jobs = NumJobs;
-  work.notify_all();
+  work.notify_all(); // wakeup all workers to start jobs
 }
 /**
  * Wait for workers to finish.
  */
 void JobQueue::masterDone() {
   std::unique_lock<std::mutex> Waiter(queue_lock);
-  while (number_of_active_jobs) {
+  while (number_of_active_jobs)
     done.wait(Waiter);
-  }
 }
 /**
  * Notify all workers and terminate them.

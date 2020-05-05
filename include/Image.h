@@ -13,6 +13,7 @@ public:
   utils::RGB &operator()(int X, int Y);
   utils::RGB operator()(int X, int Y) const;
   void save(const std::string &FilePath);
+  utils::RGB toRgb(double T) const;
 
 private:
   int width_;

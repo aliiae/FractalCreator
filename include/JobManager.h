@@ -1,7 +1,7 @@
 #ifndef FRACTALCREATOR_INCLUDE_JOBMANAGER_H
 #define FRACTALCREATOR_INCLUDE_JOBMANAGER_H
 
-#include "Job.h"
+#include "FractalRow.h"
 #include "JobQueue.h"
 #include "utils.h"
 #include <memory>
@@ -10,19 +10,19 @@
 
 class JobManager {
 public:
-  JobManager(int NumCores, int NumJobs, std::function<void(int)> JobFunction);
+  JobManager(int NumCores, int NumJobs, std::shared_ptr<Image> Image,
+             std::shared_ptr<Fractal> Fractal);
   void compute();
   ~JobManager();
-  JobManager(const JobManager &) = delete;
-  JobManager &operator=(const JobManager &) = delete;
 
 private:
   int num_cores_;
   int num_jobs_;
+  std::shared_ptr<Image> image_;
+  std::shared_ptr<Fractal> fractal_;
   std::vector<std::thread> workers_;
-  std::vector<Job> jobs_;
+  std::vector<FractalRow> jobs_;
   JobQueue job_queue_;
-  void shuffleJobsInButterflyOrder(int Min, int Max);
 };
 
 #endif // FRACTALCREATOR_INCLUDE_JOBMANAGER_H

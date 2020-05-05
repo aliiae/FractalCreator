@@ -9,4 +9,5 @@ project(FractalCreator)
 include_directories(include)
 add_executable(FractalCreator src/main.cpp src/Creator.cpp include/Creator.h include/utils.h
         include/Area.h src/Image.cpp include/Image.h
-        include/Fractal.h src/Fractal.cpp include/JobQueue.h include/JobManager.h src/JobManager.cpp src/JobQueue.cpp include/Job.h src/Job.cpp)
+        include/FractalRow.h
+        include/Fractal.h src/Fractal.cpp include/JobQueue.h include/JobManager.h src/JobManager.cpp src/JobQueue.cpp)

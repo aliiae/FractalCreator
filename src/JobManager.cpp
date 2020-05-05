@@ -1,12 +1,12 @@
 #include "JobManager.h"
-#include <random>
 
 /**
- * Multithreading approach adapted from https://stackoverflow.com/a/21396485
+ * Multithreading approach from https://stackoverflow.com/a/21396485
  */
-JobManager::JobManager(int NumCores, int NumJobs,
-                       std::function<void(int)> JobFunction)
-    : num_cores_(NumCores), num_jobs_(NumJobs) {
+JobManager::JobManager(int NumCores, int NumJobs, std::shared_ptr<Image> Image,
+                       std::shared_ptr<Fractal> Fractal)
+    : num_cores_(NumCores), num_jobs_(NumJobs), image_(Image),
+      fractal_(Fractal) {
   auto Worker = [&]() {
     while (true) {
       int NextJobIndex = job_queue_.workerStart();
@@ -16,25 +16,16 @@ JobManager::JobManager(int NumCores, int NumJobs,
       job_queue_.workerDone();
     }
   };
-  jobs_.resize(NumJobs, Job(JobFunction));
+  jobs_.resize(NumJobs, FractalRow(fractal_));
+  for (int I = 0; I < NumJobs; I++) {
+    jobs_[I].setup(Image, I);
+  }
   workers_.resize(NumCores);
   for (int I = 0; I < NumCores; I++) {
     workers_[I] = std::thread(Worker);
   }
 }
-void JobManager::shuffleJobsInButterflyOrder(int Min, int Max) {
-  if (Min > Max)
-    return;
-  jobs_[Min].setIndex(Max);
-  if (Min == Max)
-    return;
-  jobs_[Max].setIndex(Min);
-  int Mid = (Min + Max) / 2;
-  shuffleJobsInButterflyOrder(Min + 1, Mid);
-  shuffleJobsInButterflyOrder(Mid + 1, Max - 1);
-}
 void JobManager::compute() {
-  shuffleJobsInButterflyOrder(0, num_jobs_ - 1);
   job_queue_.masterStart(num_jobs_);
   job_queue_.masterDone();
 }

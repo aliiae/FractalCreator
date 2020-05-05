@@ -28,6 +28,18 @@ void Image::save(const std::string &FilePath) {
 }
 
 /**
+ * Calculate Bernstein polynomials mapping an integer to a continuous RGB space.
+ * A modified version of
+ * https://solarianprogrammer.com/2013/02/28/mandelbrot-set-cpp-11: r(t) = 8.5 *
+ * (1 - t)**3 * t; g(t) = 15 * (1 - t)**2 * t**2; b(t) = 9 * (1 - t) * t**3
+ */
+utils::RGB Image::toRgb(double T) const {
+  return utils::RGB{(int)(8.5 * (1 - T) * (1 - T) * (1 - T) * T * 255),
+                    (int)(15 * (1 - T) * (1 - T) * T * T * 255),
+                    (int)(9 * (1 - T) * T * T * T * 255)};
+}
+
+/**
  * Overloaded operators to get and set 2D indices into the underlying 1D matrix,
  * e.g. ImageObject(1,1) = 1;
  */
