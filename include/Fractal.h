@@ -8,7 +8,8 @@ class Fractal {
   friend class Creator;
 
 public:
-  explicit Fractal(int MaxIterations) : max_iterations_(MaxIterations){};
+  explicit Fractal(int MaxIterations);
+  Fractal(int MaxIterations, int Order);
   virtual ~Fractal() = default;
   virtual Area<double> getZoomArea() = 0;
   virtual void setZoomArea(Area<double> &NewArea) = 0;
@@ -22,7 +23,7 @@ public:
   int getMaxIterations() const;
 
 protected:
-  int order_;
+  int order_{};
   int max_iterations_;
 };
 

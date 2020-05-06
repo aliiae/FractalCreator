@@ -46,3 +46,5 @@ int Fractal::getIterations(std::complex<double> C) {
   }
   return max_iterations_;
 }
+Fractal::Fractal(int MaxIterations, int Order) : max_iterations_(MaxIterations), order_(Order){}
+Fractal::Fractal(int MaxIterations) : max_iterations_(MaxIterations), order_{2}{}
