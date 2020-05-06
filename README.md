@@ -1,8 +1,7 @@
 # Fractal Creator
 
-This is my capstone project in the [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213).
-
 ![](examples/1.png)
+This is my capstone project in the [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213).
 
 The program calculates and displays fractals and allows exploring them interactively.
 It is designed to be easily extendable by adding other types of fractals that feature different recurrence formulas.
