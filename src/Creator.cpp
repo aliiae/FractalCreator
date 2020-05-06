@@ -28,17 +28,21 @@ double Creator::convertY(int Row) const {
 }
 std::vector<unsigned char> &Creator::getPixels() {
   auto GetRow = [=](int Row) {
-    std::vector<utils::RGB> Result(width_);
-    double ImaginaryPart = convertY(Row);
-    for (int Col = 0; Col < width_; Col++) {
-      double RealPart = convertX(Col);
-      int Iterations = fractal_->getIterations(
-          std::complex<double>{RealPart, ImaginaryPart});
-      double ScaledIterations =
-          double(Iterations) / double(fractal_->getMaxIterations());
-      Result[Col] = toRgb(ScaledIterations);
-    }
-    return Result;
+	std::vector<utils::RGB> Result(width_);
+	double ImaginaryPart = convertY(Row);
+	for (int Col = 0; Col < width_; Col++) {
+	  double RealPart = convertX(Col);
+	  const std::complex<double> &Z = std::complex<double>{RealPart, ImaginaryPart};
+	  int Iterations = fractal_->getIterations(Z);
+	  if (Iterations==max_iterations_) {
+		Result[Col] = utils::RGB{0, 0, 0};
+	  } else {
+		double ScaledIterations =
+			double(Iterations) / double(fractal_->getMaxIterations());
+		Result[Col] = toRgb(ScaledIterations);
+	  }
+	}
+	return Result;
   };
 
   for (int Row = 0; Row < height_; Row++) {
