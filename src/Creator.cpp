@@ -1,5 +1,4 @@
 #include "Creator.h"
-#include <Image.h>
 #include <memory>
 
 Creator::Creator(int Width, int Height, int MaxIterations, std::shared_ptr<Fractal> Fractal)
@@ -30,7 +29,6 @@ double Creator::convertY(int Row) const {
   return Row * fractal_->getArea().getHeight() / height_ + fractal_->getArea().getYMin();
 }
 std::vector<unsigned char> &Creator::getPixels() {
-  std::cout << "Getting pixels..." << std::endl;
   auto GetRow = [=](int Row) {
 	std::vector<utils::RGB> Result(width_);
 	double ImaginaryPart = convertY(Row);

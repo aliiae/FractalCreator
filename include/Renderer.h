@@ -9,7 +9,7 @@
 class Renderer {
 public:
   Renderer(const std::size_t Width, const std::size_t Height)
-	  : width_(Width), height_(Height) {
+	  : width_(Width), height_(Height), pixels_size_{Width * Height * 4}, pitch_{int(Height) * 4} {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
 	  std::cerr << "SDL could not initialize.\n";
 	  std::cerr << "SDL_Error: " << SDL_GetError() << "\n";
@@ -33,17 +33,17 @@ public:
 	SDL_DestroyTexture(texture_);
 	SDL_DestroyWindow(sdl_window_);
 	SDL_Quit();
+	pixels_pointer_ = NULL;
   };
   Renderer(Renderer &Other) = delete;
 
   void render(std::vector<unsigned char> &Pixels) {
 	clearScreen();
-//	SDL_LockTexture(texture_, NULL, &pixels_, reinterpret_cast<int *>(&pitch_));
-//	std::memcpy(pixels_, &Pixels, sizeof(Pixels));
-//	SDL_UnlockTexture(texture_);
-//	pixels_ = NULL;
-//	pitch_ = NULL;
-	SDL_UpdateTexture(texture_, NULL, &Pixels[0], width_ * 4);
+	pixels_pointer_ = NULL;
+	SDL_LockTexture(texture_, NULL, (void **)&pixels_pointer_, &pitch_);
+	std::memcpy(pixels_pointer_, &Pixels[0], pixels_size_);
+	SDL_UnlockTexture(texture_);
+	pixels_pointer_ = NULL;
 
 	SDL_RenderCopy(sdl_renderer_, texture_, NULL, NULL);
 	SDL_RenderPresent(sdl_renderer_);
@@ -59,8 +59,9 @@ private:
   SDL_Texture *texture_;
   const std::size_t width_{};
   const std::size_t height_{};
-  void *pixels_{NULL};
-  int *pitch_;
+  int *pixels_pointer_{NULL};
+  unsigned long pixels_size_;
+  int pitch_;
 
   void clearScreen() const {
 	SDL_SetRenderDrawColor(sdl_renderer_, 0, 0, 0, SDL_ALPHA_OPAQUE);

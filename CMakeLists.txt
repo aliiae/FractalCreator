@@ -11,7 +11,7 @@ include_directories(${SDL2_INCLUDE_DIRS} src)
 project(FractalCreator)
 include_directories(include)
 add_executable(FractalCreator src/main.cpp src/Creator.cpp include/Creator.h include/utils.h
-        include/Area.h src/Image.cpp include/Image.h
+        include/Area.h
         include/Fractal.h src/Fractal.cpp
 #        include/Renderer.h include/Controller.h include/test.h
         )
