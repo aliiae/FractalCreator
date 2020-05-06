@@ -7,8 +7,8 @@ public:
   [[maybe_unused]] Area(T XMin, T XMax, T YMin, T YMax)
 	  : x_min_(XMin), x_max_(XMax), y_min_(YMin), y_max_(YMax) {};
 
-  T width() { return (x_max_ - x_min_); }
-  T height() { return (y_max_ - y_min_); }
+  T getWidth() { return (x_max_ - x_min_); }
+  T getHeight() { return (y_max_ - y_min_); }
 
   T getXMin() const { return x_min_; }
   T getYMin() const { return y_min_; }

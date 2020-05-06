@@ -44,7 +44,7 @@ int main() {
 
   std::vector<unsigned char> NewPixels = FractalCreator.getPixels();
   Renderer.render(NewPixels);
-  Renderer.updateWindowTitle(SelectedFractal->getZoomArea());
+  Renderer.updateWindowTitle(SelectedFractal->getArea());
 
   bool Running{true};
   SDL_Event Event;
@@ -57,7 +57,7 @@ int main() {
 		if (Controller.changeZoom(Event)) {
 		  NewPixels = FractalCreator.getPixels();
 		  Renderer.render(NewPixels);
-		  Renderer.updateWindowTitle(SelectedFractal->getZoomArea());
+		  Renderer.updateWindowTitle(SelectedFractal->getArea());
 		}
 	  }
 	}

@@ -1,6 +1,5 @@
 #include "Creator.h"
 #include <Image.h>
-#include <iostream>
 #include <memory>
 
 Creator::Creator(int Width, int Height, int MaxIterations, std::shared_ptr<Fractal> Fractal)
@@ -23,15 +22,14 @@ utils::RGB Creator::toRgb(double T) {
 					(int)(9 * (1 - T) * T * T * T * 255)};
 }
 
-double Creator::convertY(int Row) const {
-  return fractal_->getZoomArea().getYMin() +
-	  Row / (double)height_ * fractal_->getZoomArea().height();
-}
 double Creator::convertX(int Col) const {
-  return fractal_->getZoomArea().getXMin() +
-	  Col / (double)width_ * fractal_->getZoomArea().width();
+  return Col * fractal_->getArea().getWidth() / width_ + fractal_->getArea().getXMin();
 }
-std::vector<unsigned char> Creator::getPixels() {
+
+double Creator::convertY(int Row) const {
+  return Row * fractal_->getArea().getHeight() / height_ + fractal_->getArea().getYMin();
+}
+std::vector<unsigned char> &Creator::getPixels() {
   std::cout << "Getting pixels..." << std::endl;
   auto GetRow = [=](int Row) {
 	std::vector<utils::RGB> Result(width_);

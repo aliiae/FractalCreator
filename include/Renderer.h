@@ -26,9 +26,8 @@ public:
 	  std::cerr << "Renderer could not be created.\n";
 	  std::cerr << "SDL_Error: " << SDL_GetError() << "\n";
 	}
-	pixels_.resize(Width * Height * 4, 0);
 	texture_ = SDL_CreateTexture(sdl_renderer_, SDL_PIXELFORMAT_RGBA8888,
-								 SDL_TEXTUREACCESS_STATIC, Width, Height);
+								 SDL_TEXTUREACCESS_STREAMING, Width, Height);
   };
   ~Renderer() {
 	SDL_DestroyTexture(texture_);
@@ -38,14 +37,17 @@ public:
   Renderer(Renderer &Other) = delete;
 
   void render(std::vector<unsigned char> &Pixels) {
-	int Pitch{static_cast<int>(width_ * 4)};
-	SDL_SetRenderDrawColor( sdl_renderer_, 0, 0, 0, SDL_ALPHA_OPAQUE );
-	SDL_RenderClear( sdl_renderer_ );
-	SDL_UpdateTexture(texture_, NULL, &Pixels[0], Pitch);
+	clearScreen();
+//	SDL_LockTexture(texture_, NULL, &pixels_, reinterpret_cast<int *>(&pitch_));
+//	std::memcpy(pixels_, &Pixels, sizeof(Pixels));
+//	SDL_UnlockTexture(texture_);
+//	pixels_ = NULL;
+//	pitch_ = NULL;
+	SDL_UpdateTexture(texture_, NULL, &Pixels[0], width_ * 4);
+
 	SDL_RenderCopy(sdl_renderer_, texture_, NULL, NULL);
 	SDL_RenderPresent(sdl_renderer_);
-  };
-
+  }
   void updateWindowTitle(Area<double> ZoomArea) {
 	std::string Title{"Fractal Creator " + ZoomArea.toString()};
 	SDL_SetWindowTitle(sdl_window_, Title.c_str());
@@ -55,9 +57,15 @@ private:
   SDL_Window *sdl_window_;
   SDL_Renderer *sdl_renderer_;
   SDL_Texture *texture_;
-
   const std::size_t width_{};
   const std::size_t height_{};
-  std::vector<unsigned char> pixels_;
+  void *pixels_{NULL};
+  int *pitch_;
+
+  void clearScreen() const {
+	SDL_SetRenderDrawColor(sdl_renderer_, 0, 0, 0, SDL_ALPHA_OPAQUE);
+	SDL_RenderClear(sdl_renderer_);
+  };
+
 };
 #endif //FRACTALCREATOR_INCLUDE_RENDERER_H

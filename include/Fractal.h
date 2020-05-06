@@ -11,12 +11,12 @@ public:
   explicit Fractal(int MaxIterations);
   Fractal(int MaxIterations, int Order);
   virtual ~Fractal() = default;
-  virtual Area<double> getZoomArea() = 0;
-  virtual void setZoomArea(Area<double> &NewArea) = 0;
+  virtual Area<double> getArea() = 0;
+  virtual void setArea(Area<double> &NewArea) = 0;
   virtual std::complex<double> calculateRecurrence(std::complex<double> Z,
                                                    std::complex<double> C) = 0;
   virtual std::string getName() = 0;
-  [[maybe_unused]] void zoom(double WindowRatio, Area<double> NewArea);
+
   int getIterations(std::complex<double> C);
   void setOrder(int Order);
   int getOrder() const;
@@ -30,8 +30,8 @@ protected:
 class MandelbrotSet : public Fractal {
 public:
   using Fractal::Fractal;
-  void setZoomArea(Area<double> &FractalArea) override;
-  Area<double> getZoomArea() override;
+  void setArea(Area<double> &FractalArea) override;
+  Area<double> getArea() override;
   std::complex<double> calculateRecurrence(std::complex<double> Z,
                                            std::complex<double> C) override;
   std::string getName() override;
@@ -44,8 +44,8 @@ private:
 class BurningShip : public Fractal {
 public:
   using Fractal::Fractal;
-  void setZoomArea(Area<double> &FractalArea) override;
-  Area<double> getZoomArea() override;
+  void setArea(Area<double> &FractalArea) override;
+  Area<double> getArea() override;
   std::complex<double> calculateRecurrence(std::complex<double> Z,
                                            std::complex<double> C) override;
   std::string getName() override;

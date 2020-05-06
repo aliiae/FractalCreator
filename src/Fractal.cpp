@@ -1,10 +1,5 @@
 #include "Fractal.h"
 
-[[maybe_unused]] void Fractal::zoom(const double WindowRatio,
-                                    Area<double> NewArea) {
-  NewArea.setYMax(NewArea.getYMin() + (NewArea.width() * WindowRatio));
-  setZoomArea(NewArea);
-}
 void Fractal::setOrder(int Order) { order_ = Order; }
 int Fractal::getOrder() const { return order_; }
 int Fractal::getMaxIterations() const { return max_iterations_; }
@@ -16,8 +11,8 @@ MandelbrotSet::calculateRecurrence(std::complex<double> Z,
   }
   return Z + C;
 }
-Area<double> MandelbrotSet::getZoomArea() { return zoom_area_; }
-void MandelbrotSet::setZoomArea(Area<double> &FractalArea) {
+Area<double> MandelbrotSet::getArea() { return zoom_area_; }
+void MandelbrotSet::setArea(Area<double> &FractalArea) {
   zoom_area_ = FractalArea;
 }
 std::string MandelbrotSet::getName() { return name_; }
@@ -29,8 +24,8 @@ std::complex<double> BurningShip::calculateRecurrence(std::complex<double> Z,
   }
   return Z + C;
 }
-Area<double> BurningShip::getZoomArea() { return zoom_area_; }
-void BurningShip::setZoomArea(Area<double> &FractalArea) {
+Area<double> BurningShip::getArea() { return zoom_area_; }
+void BurningShip::setArea(Area<double> &FractalArea) {
   zoom_area_ = FractalArea;
 }
 std::string BurningShip::getName() { return name_; }

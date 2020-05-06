@@ -14,7 +14,7 @@ class Creator {
 public:
   Creator(int Width, int Height, int MaxIterations,
           std::shared_ptr<Fractal> Fractal);
-  std::vector<unsigned char> getPixels();
+  std::vector<unsigned char> &getPixels();
 
   std::shared_ptr<Fractal> fractal_;
 private:
