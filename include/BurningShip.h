@@ -13,7 +13,6 @@ class BurningShip : public Fractal {
 
  private:
   Area<double> zoom_area_{-2.5, 1.5, -2.2, 1.2};
-  static const std::complex<double> &imaginary_one_;
   std::string name_ = "Burning Ship";
 };
 

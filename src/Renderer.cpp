@@ -1,5 +1,7 @@
 #include <Renderer.h>
 
+#include <string>
+
 Renderer::Renderer(std::size_t width, std::size_t height)
     : width_(width),
       height_(height),
