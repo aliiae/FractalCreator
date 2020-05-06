@@ -47,18 +47,18 @@ public:
 	case SDLK_KP_PLUS:
 	case SDLK_EQUALS:
 	case SDLK_PLUS: {
-	  ZoomArea.setXMin(ZoomArea.getXMin() + WidthDelta);
+	  ZoomArea.setXMin(ZoomArea.getXMin() - WidthDelta);
 	  ZoomArea.setXMax(ZoomArea.getXMax() - WidthDelta);
-	  ZoomArea.setYMax(ZoomArea.getYMax() + HeightDelta);
+	  ZoomArea.setYMax(ZoomArea.getYMax() - HeightDelta);
 	  ZoomArea.setYMin(ZoomArea.getYMin() - HeightDelta);
 	  fractal_->setZoomArea(ZoomArea);
 	  break;
 	}
 	case SDLK_MINUS:
 	case SDLK_KP_MINUS: {
-	  ZoomArea.setXMin(ZoomArea.getXMin() - WidthDelta);
+	  ZoomArea.setXMin(ZoomArea.getXMin() + WidthDelta);
 	  ZoomArea.setXMax(ZoomArea.getXMax() + WidthDelta);
-	  ZoomArea.setYMax(ZoomArea.getYMax() - HeightDelta);
+	  ZoomArea.setYMax(ZoomArea.getYMax() + HeightDelta);
 	  ZoomArea.setYMin(ZoomArea.getYMin() + HeightDelta);
 	  fractal_->setZoomArea(ZoomArea);
 	  break;
