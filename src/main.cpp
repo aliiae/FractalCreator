@@ -3,7 +3,6 @@
 #include "Creator.h"
 
 std::shared_ptr<Fractal> selectFractal(std::string &SelectedTypeLetter, int MaxIterations) {
-  int SelectedOrder;
   std::shared_ptr<Fractal> SelectedFractal;
   std::cout << "Please choose the fractal type [M,B]:"
 			<< "\n"
@@ -20,18 +19,11 @@ std::shared_ptr<Fractal> selectFractal(std::string &SelectedTypeLetter, int MaxI
   } else {
 	SelectedFractal = std::make_shared<BurningShip>(MaxIterations);
   }
-  std::cout << "Please choose the fractal order (default 2):" << std::endl;
-  std::cin >> SelectedOrder;
-  if (SelectedOrder <= 0) {
-	std::cout << "Setting the order to the default value 2" << std::endl;
-	SelectedOrder = 2;
-  }
-  SelectedFractal->setOrder(SelectedOrder);
   return SelectedFractal;
 }
 
 int main() {
-  const int MaxIterations = 512;
+  const int MaxIterations = 256;
   const int ImageWidth = 640;
   const int ImageHeight = 640;
 

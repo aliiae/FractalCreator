@@ -4,7 +4,6 @@
 Creator::Creator(int Width, int Height, int MaxIterations, std::shared_ptr<Fractal> Fractal)
 	: width_(Width), height_(Height),
 	  max_iterations_(MaxIterations), fractal_(std::move(Fractal)) {
-  rows_.resize(height_);
   future_rows_.resize(height_);
   pixels_.resize(width_ * height_ * 4, 0);
 }
@@ -48,13 +47,13 @@ std::vector<unsigned char> &Creator::getPixels() {
   }
 
   for (int Row = 0; Row < height_; Row++) {
-	rows_[Row] = std::move(future_rows_[Row].get());
+	auto RgbRow = std::move(future_rows_[Row].get());
 	for (int Col = 0; Col < width_; Col++) {
 	  int Offset = 4 * (Row * width_ + Col);
 	  pixels_[Offset] = 255;
-	  pixels_[Offset + 1] = rows_[Row][Col].blue;
-	  pixels_[Offset + 2] = rows_[Row][Col].green;
-	  pixels_[Offset + 3] = rows_[Row][Col].red;
+	  pixels_[Offset + 1] = RgbRow[Col].blue;
+	  pixels_[Offset + 2] = RgbRow[Col].green;
+	  pixels_[Offset + 3] = RgbRow[Col].red;
 	}
   }
   return pixels_;

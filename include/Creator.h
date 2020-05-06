@@ -23,7 +23,6 @@ private:
   int max_iterations_;
   static utils::RGB toRgb(double T);
   std::vector<unsigned char> pixels_;
-  std::vector<std::vector<utils::RGB>> rows_;
   std::vector<std::future<std::vector<utils::RGB>>> future_rows_;
   [[nodiscard]] double convertY(int Row) const;
   [[nodiscard]] double convertX(int Col) const;

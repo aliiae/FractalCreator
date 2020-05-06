@@ -1,15 +1,10 @@
 #include "Fractal.h"
 
-void Fractal::setOrder(int Order) { order_ = Order; }
-int Fractal::getOrder() const { return order_; }
 int Fractal::getMaxIterations() const { return max_iterations_; }
 std::complex<double>
 MandelbrotSet::calculateRecurrence(std::complex<double> Z,
                                    std::complex<double> C) {
-  for (int Power = 1; Power < order_; Power++) {
-    Z *= Z;
-  }
-  return Z + C;
+  return Z * Z + C;
 }
 Area<double> MandelbrotSet::getArea() { return zoom_area_; }
 void MandelbrotSet::setArea(Area<double> &FractalArea) {
@@ -19,10 +14,7 @@ std::string MandelbrotSet::getName() { return name_; }
 std::complex<double> BurningShip::calculateRecurrence(std::complex<double> Z,
                                                       std::complex<double> C) {
   Z = abs(Z.real()) + ImaginaryOne * abs(Z.imag());
-  for (int Power = 1; Power < order_; Power++) {
-    Z *= abs(Z.real()) + ImaginaryOne * abs(Z.imag());
-  }
-  return Z + C;
+  return Z * Z + C;
 }
 Area<double> BurningShip::getArea() { return zoom_area_; }
 void BurningShip::setArea(Area<double> &FractalArea) {
@@ -41,5 +33,4 @@ int Fractal::getIterations(std::complex<double> C) {
   }
   return max_iterations_;
 }
-Fractal::Fractal(int MaxIterations, int Order) : max_iterations_(MaxIterations), order_(Order){}
-Fractal::Fractal(int MaxIterations) : max_iterations_(MaxIterations), order_{2}{}
+Fractal::Fractal(int MaxIterations) : max_iterations_(MaxIterations) {}

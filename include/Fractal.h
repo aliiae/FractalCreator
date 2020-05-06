@@ -9,7 +9,6 @@ class Fractal {
 
 public:
   explicit Fractal(int MaxIterations);
-  Fractal(int MaxIterations, int Order);
   virtual ~Fractal() = default;
   virtual Area<double> getArea() = 0;
   virtual void setArea(Area<double> &NewArea) = 0;
@@ -18,12 +17,9 @@ public:
   virtual std::string getName() = 0;
 
   int getIterations(std::complex<double> C);
-  void setOrder(int Order);
-  int getOrder() const;
   int getMaxIterations() const;
 
 protected:
-  int order_{};
   int max_iterations_;
 };
 
