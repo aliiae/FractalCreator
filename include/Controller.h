@@ -8,70 +8,16 @@
 
 class Controller {
 public:
-  Controller(std::shared_ptr<Fractal> Fractal) : fractal_(std::move(Fractal)) {};
-  bool changeZoom(SDL_Event &Event) {
-	bool PositionChanged{true};
-	auto NewArea = fractal_->getArea();
-	double Delta = 0.1;
-	double WidthDelta = NewArea.getWidth() * Delta;
-	double HeightDelta = NewArea.getHeight() * Delta;
-	switch (Event.key.keysym.sym) {
-	case SDLK_w:
-	case SDLK_UP: {
-	  NewArea.setYMin(NewArea.getYMin() - WidthDelta);
-	  NewArea.setYMax(NewArea.getYMax() - WidthDelta);
-	  fractal_->setArea(NewArea);
-	  break;
-	}
-	case SDLK_s:
-	case SDLK_DOWN: {
-	  NewArea.setYMin(NewArea.getYMin() + HeightDelta);
-	  NewArea.setYMax(NewArea.getYMax() + HeightDelta);
-	  fractal_->setArea(NewArea);
-	  break;
-	}
-	case SDLK_a:
-	case SDLK_LEFT: {
-	  NewArea.setXMin(NewArea.getXMin() - WidthDelta);
-	  NewArea.setXMax(NewArea.getXMax() - WidthDelta);
-	  fractal_->setArea(NewArea);
-	  break;
-	}
-	case SDLK_d:
-	case SDLK_RIGHT: {
-	  NewArea.setXMin(NewArea.getXMin() + WidthDelta);
-	  NewArea.setXMax(NewArea.getXMax() + WidthDelta);
-	  fractal_->setArea(NewArea);
-	  break;
-	}
-	case SDLK_KP_EQUALS:
-	case SDLK_KP_PLUS:
-	case SDLK_EQUALS:
-	case SDLK_PLUS: {
-	  NewArea.setXMin(NewArea.getXMin() + WidthDelta);
-	  NewArea.setXMax(NewArea.getXMax() - WidthDelta);
-	  NewArea.setYMin(NewArea.getYMin() + HeightDelta);
-	  NewArea.setYMax(NewArea.getYMax() - HeightDelta);
-	  fractal_->setArea(NewArea);
-	  break;
-	}
-	case SDLK_MINUS:
-	case SDLK_KP_MINUS: {
-	  NewArea.setXMin(NewArea.getXMin() - WidthDelta);
-	  NewArea.setXMax(NewArea.getXMax() + WidthDelta);
-	  NewArea.setYMin(NewArea.getYMin() - HeightDelta);
-	  NewArea.setYMax(NewArea.getYMax() + HeightDelta);
-	  fractal_->setArea(NewArea);
-	  break;
-	}
-	default: {
-	  PositionChanged = false;
-	}
-	}
-	return PositionChanged;
-  };
+  explicit Controller(std::shared_ptr<Fractal> Fractal);
+  bool changeZoom(SDL_Event &Event);
 
 private:
   std::shared_ptr<Fractal> fractal_;
+  void moveUp(Area<double> &NewArea, double WidthDelta) const;
+  void moveDown(Area<double> &NewArea, double HeightDelta) const;
+  void moveLeft(Area<double> &NewArea, double WidthDelta) const;
+  void moveRight(Area<double> &NewArea, double WidthDelta) const;
+  void zoomIn(Area<double> &NewArea, double WidthDelta, double HeightDelta) const;
+  void zoomOut(Area<double> &NewArea, double WidthDelta, double HeightDelta) const;
 };
 #endif //FRACTALCREATOR_INCLUDE_CONTROLLER_H

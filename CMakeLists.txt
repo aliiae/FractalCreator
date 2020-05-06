@@ -14,7 +14,7 @@ add_executable(FractalCreator src/main.cpp src/Creator.cpp include/Creator.h inc
         include/Area.h
         include/Fractal.h src/Fractal.cpp
 #        include/Renderer.h include/Controller.h include/test.h
-        )
+        src/Controller.cpp src/Renderer.cpp)
 
 string(STRIP ${SDL2_LIBRARIES} SDL2_LIBRARIES)
 target_link_libraries(FractalCreator ${SDL2_LIBRARIES})
