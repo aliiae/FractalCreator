@@ -1,6 +1,7 @@
-# Fractal Creator
+# Fractal Creator & Viewer
 
 ![](examples/1.png)
+
 This is my capstone project in the [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213).
 
 The program calculates and displays fractals and allows exploring them interactively.
