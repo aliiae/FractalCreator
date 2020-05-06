@@ -1,57 +1,64 @@
+#include <Renderer.h>
+#include <Controller.h>
 #include "Creator.h"
 #include <iostream>
 #include <BurningShip.h>
 #include <MandelbrotSet.h>
 #include <map>
 
-std::unique_ptr<Fractal> selectFractalType(int MaxIterations);
-int selectOrder();
+std::shared_ptr<Fractal> selectFractalType(int MaxIterations);
 int main() {
   const int MaxIterations = 256;
-  const int ImageWidth = 1000;
-  const int ImageHeight = 1000;
+  const int ImageWidth = 800;
+  const int ImageHeight = 800;
 
-  std::unique_ptr<Fractal> SelectedFractal = selectFractalType(MaxIterations);
-  int SelectedOrder = selectOrder();
-  SelectedFractal->setOrder(SelectedOrder);
-
+  std::shared_ptr<Fractal> SelectedFractal = selectFractalType(MaxIterations);
   Creator FractalCreator = Creator(ImageWidth, ImageHeight,
-								   MaxIterations, std::move(SelectedFractal));
+								   MaxIterations, SelectedFractal);
+  Renderer Renderer(ImageWidth, ImageHeight);
+  Controller Controller(SelectedFractal);
+  const std::string &Title = SelectedFractal->getName() + " " + SelectedFractal->getZoomAreaString();
 
-  FractalCreator.draw();
+  std::vector<unsigned char> NewPixels = FractalCreator.getPixels();
+  Renderer.render(NewPixels);
+  Renderer.updateWindowTitle(Title);
+
+  bool Running{true};
+  SDL_Event Event;
+  while (Running) {
+	while (SDL_PollEvent(&Event)) {
+	  if (Event.type==SDL_QUIT) {
+		Running = false;
+		break;
+	  } else if (Event.type==SDL_KEYDOWN) {
+		if (Controller.changeZoom(Event)) {
+		  NewPixels = FractalCreator.getPixels();
+		  Renderer.render(NewPixels);
+		  Renderer.updateWindowTitle(Title);
+		}
+	  }
+	}
+  }
   return 0;
 }
-int selectOrder() {
-  int SelectedOrder;
-  std::cout << "Please choose the fractal order (default 2):" << std::endl;
-  std::cin >> SelectedOrder;
-  if (SelectedOrder <= 0) {
-	std::cout << "Setting the order to the default value 2" << std::endl;
-	SelectedOrder = 2;
-  }
-  return SelectedOrder;
-}
-std::unique_ptr<Fractal> selectFractalType(const int MaxIterations) {
+
+std::shared_ptr<Fractal> selectFractalType(const int MaxIterations) {
   char DefaultChoice = 'M';
   std::string SelectedTypeLetter;
-  std::__1::map<char, std::function<std::__1::unique_ptr<Fractal>()>> InputLetterMap =
+  std::__1::map<char, std::function<std::shared_ptr<Fractal>()>> InputLetterMap =
 	  {
-		  {DefaultChoice, [MaxIterations]() { return std::__1::make_unique<MandelbrotSet>(MaxIterations); }},
-		  {'B', [MaxIterations]() { return std::__1::make_unique<BurningShip>(MaxIterations); }}
+		  {DefaultChoice, [MaxIterations]() { return std::make_shared<MandelbrotSet>(MaxIterations); }},
+		  {'B', [MaxIterations]() { return std::make_shared<BurningShip>(MaxIterations); }}
 	  };
   std::__1::unique_ptr<Fractal> SelectedFractal;
-  std::cout << "Please choose the fractal type [M,B]:"
-			<< "\n"
-			<< "1. [M]andelbrot Set (default)"
-			<< "\n"
+  std::cout << "Please choose the fractal type (default " << DefaultChoice << "):\n"
+			<< "1. [M]andelbrot Set\n"
 			<< "2. [B]urning Ship" << std::endl;
   std::cin >> SelectedTypeLetter;
   if (InputLetterMap.find(SelectedTypeLetter.at(0))!=InputLetterMap.end()) {
-	SelectedFractal = InputLetterMap[SelectedTypeLetter.at(0)]();
-  } else {
-	std::cout << "Setting the fractal type to the default value " << DefaultChoice
-			  << std::endl;
-	SelectedFractal = InputLetterMap[DefaultChoice]();
+	return InputLetterMap[SelectedTypeLetter.at(0)]();
   }
-  return SelectedFractal;
+  std::cout << "Setting the fractal type to the default value " << DefaultChoice
+			<< std::endl;
+  return InputLetterMap[DefaultChoice]();
 }

@@ -8,23 +8,20 @@ class Fractal {
   friend class Creator;
 
 public:
-  explicit Fractal(int MaxIterations) : max_iterations_(MaxIterations){};
+  explicit Fractal(int MaxIterations);
   virtual ~Fractal() = default;
-  virtual Area<double> getZoomArea() = 0;
-  virtual void setZoomArea(Area<double> &NewArea) = 0;
+  virtual Area<double> getArea() = 0;
+  virtual void setArea(Area<double> &NewArea) = 0;
   std::string getZoomAreaString();
   virtual std::complex<double> calculateRecurrence(std::complex<double> Z,
                                                    std::complex<double> C) = 0;
   virtual std::string getName() = 0;
-  [[maybe_unused]] void zoom(double WindowRatio, Area<double> NewArea);
+
   int getIterations(std::complex<double> C);
-  void setOrder(int Order);
-  int getOrder() const;
   int getMaxIterations() const;
 
 
 protected:
-  int order_;
   int max_iterations_;
 };
 

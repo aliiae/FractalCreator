@@ -5,8 +5,8 @@
 class BurningShip : public Fractal {
 public:
   using Fractal::Fractal;
-  void setZoomArea(Area<double> &FractalArea) override;
-  Area<double> getZoomArea() override;
+  void setArea(Area<double> &FractalArea) override;
+  Area<double> getArea() override;
   std::complex<double> calculateRecurrence(std::complex<double> Z,
 										   std::complex<double> C) override;
   std::string getName() override;
@@ -14,7 +14,7 @@ public:
 private:
   Area<double> zoom_area_{-2.5, 1.5, -2.2, 1.2};
   static const std::complex<double> &ImaginaryOne;
-  std::string name_{"Burning_Ship"};
+  std::string name_{"Burning Ship"};
 };
 
 #endif //FRACTALCREATOR_INCLUDE_BURNINGSHIP_H

@@ -1,36 +1,35 @@
 #ifndef FRACTALCREATOR_INCLUDE_AREA_H
 #define FRACTALCREATOR_INCLUDE_AREA_H
 
-#include <string>
-
 template<typename T> class Area {
 public:
   [[maybe_unused]] Area(T XMin, T XMax, T YMin, T YMax)
-	  : x_min(XMin), x_max(XMax), y_min(YMin), y_max(YMax) {};
+	  : x_min_(XMin), x_max_(XMax), y_min_(YMin), y_max_(YMax) {};
 
-  T width() { return (x_max - x_min); }
-  T height() { return (y_max - y_min); }
+  T getWidth() { return (x_max_ - x_min_); }
+  T getHeight() { return (y_max_ - y_min_); }
+
+  T getXMin() const { return x_min_; }
+  T getYMin() const { return y_min_; }
+  void setYMax(T YMax) { y_max_ = YMax; }
   void setXMin(T XMin) {
-	x_min = XMin;
+	x_min_ = XMin;
+  }
+  T getXMax() const {
+	return x_max_;
   }
   void setXMax(T XMax) {
-	x_max = XMax;
+	x_max_ = XMax;
   }
   void setYMin(T YMin) {
-	y_min = YMin;
-  }
-  T getXMin() const { return x_min; }
-  T getXMax() const {
-	return x_max;
+	y_min_ = YMin;
   }
   T getYMax() const {
-	return y_max;
+	return y_max_;
   }
-  T getYMin() const { return y_min; }
-  void setYMax(T YMax) { y_max = YMax; }
 
 private:
-  T x_min, x_max, y_min, y_max;
+  T x_min_, x_max_, y_min_, y_max_;
 };
 
 #endif // FRACTALCREATOR_INCLUDE_AREA_H
