@@ -12,8 +12,8 @@ bool escapeWasPressed(const SDL_Event &Event);
 std::string getTitle(std::shared_ptr<Fractal> &SelectedFractal);
 int main() {
   const int MaxIterations = 256;
-  const int Width = 800;
-  const int Height = 800;
+  const int Width = 640;
+  const int Height = 640;
 
   std::shared_ptr<Fractal> SelectedFractal = selectFractalType(MaxIterations);
   Creator FractalCreator =
