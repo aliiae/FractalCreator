@@ -24,9 +24,12 @@ Currently, it displays the Mandelbrot set (in the picture above), as well as the
   - All installation instructions can be found [here](https://wiki.libsdl.org/Installation).
   - Note that for Linux, an apt or apt-get installation is preferred to building from source.
 - gcc/g++ >= 5.4
+
   - Linux: gcc / g++ is installed by default on most Linux distros
   - Mac: same deal as make - [install Xcode command line tools](https://developer.apple.com/xcode/features/)
   - Windows: recommend using [MinGW](http://www.mingw.org/)
+
+The program uses SDL2 Textures that rely on video card: make sure that these are supported on the machine.
 
 ### Building
 
