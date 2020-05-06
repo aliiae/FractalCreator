@@ -1,10 +1,14 @@
-#include <sstream>
 #include <utils.h>
 
-std::string utils::formatDouble(double Double) {
-  std::stringstream Stream;
-  Stream.setf(std::ios::fixed);
-  Stream.precision(1);
-  Stream << Double;
-  return Stream.str();
+#include <sstream>
+
+/**
+ * Formats the double with precision 1.
+ */
+std::string utils::FormatDouble(double double_value) {
+  std::stringstream stream;
+  stream.setf(std::ios::fixed);
+  stream.precision(1);
+  stream << double_value;
+  return stream.str();
 }

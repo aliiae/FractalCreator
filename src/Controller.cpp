@@ -1,84 +1,84 @@
 #include <Controller.h>
-Controller::Controller(std::shared_ptr<Fractal> Fractal)
-    : fractal_(std::move(Fractal)) {}
-bool Controller::changeZoom(SDL_Event &Event) {
-  bool PositionChanged{true};
-  auto Area = fractal_->getArea();
-  double Delta = 0.1;
-  double WidthDelta = Area.getWidth() * Delta;
-  double HeightDelta = Area.getHeight() * Delta;
-  switch (Event.key.keysym.sym) {
-  case SDLK_w:
-  case SDLK_UP: {
-    moveUp(Area, WidthDelta);
-    break;
+Controller::Controller(std::shared_ptr<Fractal> fractal)
+    : fractal_(std::move(fractal)) {}
+bool Controller::ChangeZoom(SDL_Event &event) {
+  bool position_changed{true};
+  auto area = fractal_->GetArea();
+  double delta = 0.1;
+  double width_delta = area.GetWidth() * delta;
+  double height_delta = area.GetHeight() * delta;
+  switch (event.key.keysym.sym) {
+    case SDLK_w:
+    case SDLK_UP: {
+      MoveUp(area, width_delta);
+      break;
+    }
+    case SDLK_s:
+    case SDLK_DOWN: {
+      MoveDown(area, height_delta);
+      break;
+    }
+    case SDLK_a:
+    case SDLK_LEFT: {
+      MoveLeft(area, width_delta);
+      break;
+    }
+    case SDLK_d:
+    case SDLK_RIGHT: {
+      MoveRight(area, width_delta);
+      break;
+    }
+    case SDLK_KP_EQUALS:
+    case SDLK_KP_PLUS:
+    case SDLK_EQUALS:
+    case SDLK_PLUS: {
+      ZoomIn(area, width_delta, height_delta);
+      break;
+    }
+    case SDLK_MINUS:
+    case SDLK_KP_MINUS: {
+      ZoomOut(area, width_delta, height_delta);
+      break;
+    }
+    default: {
+      position_changed = false;
+    }
   }
-  case SDLK_s:
-  case SDLK_DOWN: {
-    moveDown(Area, HeightDelta);
-    break;
-  }
-  case SDLK_a:
-  case SDLK_LEFT: {
-    moveLeft(Area, WidthDelta);
-    break;
-  }
-  case SDLK_d:
-  case SDLK_RIGHT: {
-    moveRight(Area, WidthDelta);
-    break;
-  }
-  case SDLK_KP_EQUALS:
-  case SDLK_KP_PLUS:
-  case SDLK_EQUALS:
-  case SDLK_PLUS: {
-    zoomIn(Area, WidthDelta, HeightDelta);
-    break;
-  }
-  case SDLK_MINUS:
-  case SDLK_KP_MINUS: {
-    zoomOut(Area, WidthDelta, HeightDelta);
-    break;
-  }
-  default: {
-    PositionChanged = false;
-  }
-  }
-  return PositionChanged;
+  return position_changed;
 }
-void Controller::zoomOut(Area<double> &NewArea, double WidthDelta,
-                         double HeightDelta) const {
-  NewArea.setXMin(NewArea.getXMin() - WidthDelta);
-  NewArea.setXMax(NewArea.getXMax() + WidthDelta);
-  NewArea.setYMin(NewArea.getYMin() - HeightDelta);
-  NewArea.setYMax(NewArea.getYMax() + HeightDelta);
-  fractal_->setArea(NewArea);
+void Controller::ZoomOut(Area<double> &new_area, double width_delta,
+                         double height_delta) const {
+  new_area.SetXMin(new_area.GetXMin() - width_delta);
+  new_area.SetXMax(new_area.GetXMax() + width_delta);
+  new_area.SetYMin(new_area.GetYMin() - height_delta);
+  new_area.SetYMax(new_area.GetYMax() + height_delta);
+  fractal_->SetArea(new_area);
 }
-void Controller::zoomIn(Area<double> &NewArea, double WidthDelta,
-                        double HeightDelta) const {
-  NewArea.setXMin(NewArea.getXMin() + WidthDelta);
-  NewArea.setXMax(NewArea.getXMax() - WidthDelta);
-  NewArea.setYMin(NewArea.getYMin() + HeightDelta);
-  NewArea.setYMax(NewArea.getYMax() - HeightDelta);
-  fractal_->setArea(NewArea);
+void Controller::ZoomIn(Area<double> &new_area, double width_delta,
+                        double height_delta) const {
+  new_area.SetXMin(new_area.GetXMin() + width_delta);
+  new_area.SetXMax(new_area.GetXMax() - width_delta);
+  new_area.SetYMin(new_area.GetYMin() + height_delta);
+  new_area.SetYMax(new_area.GetYMax() - height_delta);
+  fractal_->SetArea(new_area);
 }
-void Controller::moveRight(Area<double> &NewArea, double WidthDelta) const {
-  NewArea.setXMin(NewArea.getXMin() + WidthDelta);
-  NewArea.setXMax(NewArea.getXMax() + WidthDelta);
-  fractal_->setArea(NewArea);
+void Controller::MoveRight(Area<double> &new_area, double width_delta) const {
+  new_area.SetXMin(new_area.GetXMin() + width_delta);
+  new_area.SetXMax(new_area.GetXMax() + width_delta);
+  fractal_->SetArea(new_area);
 }
-void Controller::moveLeft(Area<double> &NewArea, double WidthDelta) const {
-  NewArea.setXMin(NewArea.getXMin() - WidthDelta);
-  NewArea.setXMax(NewArea.getXMax() - WidthDelta);
-  fractal_->setArea(NewArea);
+void Controller::MoveLeft(Area<double> &new_area, double width_delta) const {
+  new_area.SetXMin(new_area.GetXMin() - width_delta);
+  new_area.SetXMax(new_area.GetXMax() - width_delta);
+  fractal_->SetArea(new_area);
 }
-void Controller::moveDown(Area<double> &NewArea, double HeightDelta) const {
-  NewArea.setYMin(NewArea.getYMin() + HeightDelta);
-  NewArea.setYMax(NewArea.getYMax() + HeightDelta);
-  fractal_->setArea(NewArea);
+void Controller::MoveDown(Area<double> &new_area, double height_delta) const {
+  new_area.SetYMin(new_area.GetYMin() + height_delta);
+  new_area.SetYMax(new_area.GetYMax() + height_delta);
+  fractal_->SetArea(new_area);
 }
-void Controller::moveUp(Area<double> &NewArea, double WidthDelta) const {
-  NewArea.setYMin(NewArea.getYMin() - WidthDelta);
-  NewArea.setYMax(NewArea.getYMax() - WidthDelta);
-  fractal_->setArea(NewArea);
+void Controller::MoveUp(Area<double> &new_area, double width_delta) const {
+  new_area.SetYMin(new_area.GetYMin() - width_delta);
+  new_area.SetYMax(new_area.GetYMax() - width_delta);
+  fractal_->SetArea(new_area);
 }

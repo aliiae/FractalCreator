@@ -1,31 +1,32 @@
-#ifndef FRACTALCREATOR_INCLUDE_CREATOR_H
-#define FRACTALCREATOR_INCLUDE_CREATOR_H
+#ifndef FRACTALCREATOR_INCLUDE_CREATOR_H_
+#define FRACTALCREATOR_INCLUDE_CREATOR_H_
 
 #include <Controller.h>
 #include <Fractal.h>
 #include <Renderer.h>
+#include <utils.h>
+
 #include <future>
 #include <string>
 #include <utility>
-#include <utils.h>
 #include <vector>
 
 class Creator {
-public:
-  Creator(int Width, int Height, int MaxIterations,
-          std::shared_ptr<Fractal> Fractal);
-  std::vector<unsigned char> &getPixels();
+ public:
+  Creator(int width, int height, int max_iterations,
+          std::shared_ptr<Fractal> fractal);
+  std::vector<unsigned char> &GetPixels();
 
-private:
+ private:
   int width_;
   int height_;
   int max_iterations_;
-  static utils::RGB toRgb(double T);
+  static utils::RGB ToRgb(double t);
   std::shared_ptr<Fractal> fractal_;
   std::vector<unsigned char> pixels_;
-  [[nodiscard]] double convertY(int Row) const;
-  [[nodiscard]] double convertX(int Col) const;
+  [[nodiscard]] double ConvertY(int row) const;
+  [[nodiscard]] double ConvertX(int col) const;
   std::vector<std::future<std::vector<utils::RGB>>> future_rows_;
 };
 
-#endif // FRACTALCREATOR_INCLUDE_CREATOR_H
+#endif  // FRACTALCREATOR_INCLUDE_CREATOR_H_

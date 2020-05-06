@@ -1,23 +1,14 @@
 #include <Fractal.h>
 #include <utils.h>
 
-int Fractal::getMaxIterations() const { return max_iterations_; }
-int Fractal::getIterations(std::complex<double> C) {
-  std::complex<double> Z = C;
-  std::complex<double> OrbitReference = Z;
-  int OrbitCounter = 16;
-  for (int Iteration = 0; Iteration < max_iterations_; ++Iteration) {
-    if (abs(Z) >= 2.0) {
-      return Iteration;
+int Fractal::GetMaxIterations() const { return max_iterations_; }
+int Fractal::GetIterations(std::complex<double> c) {
+  std::complex<double> z = c;
+  for (int iteration = 0; iteration < max_iterations_; ++iteration) {
+    if (abs(z) >= 2.0) {
+      return iteration;
     }
-    Z = calculateRecurrence(Z, C);
-    if (OrbitReference == Z) {
-      return max_iterations_;
-    }
-    if (OrbitCounter == Iteration) {
-      OrbitReference = Z;
-      OrbitCounter += 8;
-    }
+    z = CalculateRecurrence(z, c);
   }
   return max_iterations_;
 }
@@ -26,12 +17,12 @@ int Fractal::getIterations(std::complex<double> C) {
  * Formats the area as (left, right, top, bottom) coordinates to display to the
  * user.
  */
-std::string Fractal::getZoomAreaString() {
-  Area<double> A = getArea();
-  return "(" + utils::formatDouble(A.getXMin()) + "," +
-         utils::formatDouble(A.getXMax()) + "," +
-         utils::formatDouble(A.getYMin()) + "," +
-         utils::formatDouble(A.getYMax()) + ")";
+std::string Fractal::GetZoomAreaString() {
+  Area<double> a = GetArea();
+  return "(" + utils::FormatDouble(a.GetXMin()) + "," +
+         utils::FormatDouble(a.GetXMax()) + "," +
+         utils::FormatDouble(a.GetYMin()) + "," +
+         utils::FormatDouble(a.GetYMax()) + ")";
 }
 
-Fractal::Fractal(int MaxIterations) : max_iterations_(MaxIterations) {}
+Fractal::Fractal(int max_iterations) : max_iterations_(max_iterations) {}

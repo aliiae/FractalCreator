@@ -1,13 +1,11 @@
 #include <MandelbrotSet.h>
-#include <complex>
 
-std::complex<double>
-MandelbrotSet::calculateRecurrence(std::complex<double> Z,
-                                   std::complex<double> C) {
-  return Z * Z + C;
+std::complex<double> MandelbrotSet::CalculateRecurrence(
+    std::complex<double> z, std::complex<double> c) {
+  return z * z + c;
 }
-Area<double> MandelbrotSet::getArea() { return zoom_area_; }
-void MandelbrotSet::setArea(Area<double> &FractalArea) {
-  zoom_area_ = FractalArea;
+Area<double> MandelbrotSet::GetArea() { return zoom_area_; }
+void MandelbrotSet::SetArea(Area<double> &fractal_area) {
+  zoom_area_ = fractal_area;
 }
-std::string MandelbrotSet::getName() { return name_; }
+std::string MandelbrotSet::GetName() { return name_; }

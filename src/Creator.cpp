@@ -1,10 +1,13 @@
 #include <Creator.h>
+
 #include <future>
 
-Creator::Creator(int Width, int Height, int MaxIterations,
-                 std::shared_ptr<Fractal> Fractal)
-    : width_(Width), height_(Height), max_iterations_(MaxIterations),
-      fractal_(std::move(Fractal)) {
+Creator::Creator(int width, int height, int max_iterations,
+                 std::shared_ptr<Fractal> fractal)
+    : width_(width),
+      height_(height),
+      max_iterations_(max_iterations),
+      fractal_(std::move(fractal)) {
   future_rows_.resize(height_);
   pixels_.resize(width_ * height_ * 4, 0);
 }
@@ -14,53 +17,54 @@ Creator::Creator(int Width, int Height, int MaxIterations,
  * A modified version of
  * https://solarianprogrammer.com/2013/02/28/mandelbrot-set-cpp-11
  */
-utils::RGB Creator::toRgb(double T) {
-  return utils::RGB{(int)(8.5 * (1 - T) * (1 - T) * (1 - T) * T * 255),
-                    (int)(15 * (1 - T) * (1 - T) * T * T * 255),
-                    (int)(9 * (1 - T) * T * T * T * 255)};
+utils::RGB Creator::ToRgb(double t) {
+  return utils::RGB{
+      static_cast<unsigned char>((8.5 * (1 - t) * (1 - t) * (1 - t) * t * 255)),
+      static_cast<unsigned char>((15 * (1 - t) * (1 - t) * t * t * 255)),
+      static_cast<unsigned char>((9 * (1 - t) * t * t * t * 255))};
 }
 
-double Creator::convertX(int Col) const {
-  return Col * fractal_->getArea().getWidth() / width_ +
-         fractal_->getArea().getXMin();
+double Creator::ConvertX(int col) const {
+  return col * fractal_->GetArea().GetWidth() / width_ +
+         fractal_->GetArea().GetXMin();
 }
 
-double Creator::convertY(int Row) const {
-  return Row * fractal_->getArea().getHeight() / height_ +
-         fractal_->getArea().getYMin();
+double Creator::ConvertY(int row) const {
+  return row * fractal_->GetArea().GetHeight() / height_ +
+         fractal_->GetArea().GetYMin();
 }
-std::vector<unsigned char> &Creator::getPixels() {
-  auto GetRow = [=](int Row) {
-    std::vector<utils::RGB> Result(width_);
-    double ImaginaryPart = convertY(Row);
-    for (int Col = 0; Col < width_; Col++) {
-      double RealPart = convertX(Col);
-      const std::complex<double> &Z =
-          std::complex<double>{RealPart, ImaginaryPart};
-      int Iterations = fractal_->getIterations(Z);
-      if (Iterations == max_iterations_) {
-        Result[Col] = utils::RGB{0, 0, 0};
+std::vector<unsigned char> &Creator::GetPixels() {
+  auto get_row = [=](int row) {
+    std::vector<utils::RGB> result(width_);
+    double imaginary_part = ConvertY(row);
+    for (int col = 0; col < width_; col++) {
+      double real_part = ConvertX(col);
+      const std::complex<double> &z =
+          std::complex<double>{real_part, imaginary_part};
+      int iterations = fractal_->GetIterations(z);
+      if (iterations == max_iterations_) {
+        result[col] = utils::RGB{0, 0, 0};
       } else {
-        double ScaledIterations =
-            double(Iterations) / double(fractal_->getMaxIterations());
-        Result[Col] = toRgb(ScaledIterations);
+        double scaled_iterations =
+            double(iterations) / double(fractal_->GetMaxIterations());
+        result[col] = ToRgb(scaled_iterations);
       }
     }
-    return Result;
+    return result;
   };
 
-  for (int Row = 0; Row < height_; Row++) {
-    future_rows_[Row] = std::async(GetRow, Row);
+  for (int row = 0; row < height_; row++) {
+    future_rows_[row] = std::async(get_row, row);
   }
 
-  for (int Row = 0; Row < height_; Row++) {
-    auto RgbRow = std::move(future_rows_[Row].get());
-    for (int Col = 0; Col < width_; Col++) {
-      int Offset = 4 * (Row * width_ + Col);
-      pixels_[Offset] = 255;
-      pixels_[Offset + 1] = RgbRow[Col].blue;
-      pixels_[Offset + 2] = RgbRow[Col].green;
-      pixels_[Offset + 3] = RgbRow[Col].red;
+  for (int row = 0; row < height_; row++) {
+    auto rgb_row = std::move(future_rows_[row].get());
+    for (int col = 0; col < width_; col++) {
+      int offset = 4 * (row * width_ + col);
+      pixels_[offset] = 255;
+      pixels_[offset + 1] = rgb_row[col].blue;
+      pixels_[offset + 2] = rgb_row[col].green;
+      pixels_[offset + 3] = rgb_row[col].red;
     }
   }
   return pixels_;

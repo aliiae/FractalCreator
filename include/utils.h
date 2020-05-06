@@ -1,13 +1,14 @@
-#ifndef FRACTALCREATOR_INCLUDE_UTILS_H
-#define FRACTALCREATOR_INCLUDE_UTILS_H
+#ifndef FRACTALCREATOR_INCLUDE_UTILS_H_
+#define FRACTALCREATOR_INCLUDE_UTILS_H_
 #include <string>
 
 namespace utils {
 struct RGB {
-  int red;
-  int green;
-  int blue;
+  unsigned char red;
+  unsigned char green;
+  unsigned char blue;
 };
-std::string formatDouble(double Double);
-} // namespace utils
-#endif // FRACTALCREATOR_INCLUDE_UTILS_H
+std::string FormatDouble(double double_value);
+}  // namespace utils
+
+#endif  // FRACTALCREATOR_INCLUDE_UTILS_H_
