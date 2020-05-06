@@ -1,4 +1,4 @@
-#include "MandelbrotSet.h"
+#include <MandelbrotSet.h>
 #include <complex>
 
 std::complex<double>

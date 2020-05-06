@@ -1,4 +1,4 @@
-#include "Renderer.h"
+#include <Renderer.h>
 Renderer::Renderer(std::size_t Width, std::size_t Height)
     : width_(Width),
       height_(Height), pixels_size_{Width * Height * 4}, pitch_{int(Height) *

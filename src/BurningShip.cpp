@@ -1,4 +1,4 @@
-#include "BurningShip.h"
+#include <BurningShip.h>
 
 std::complex<double> BurningShip::calculateRecurrence(std::complex<double> Z,
                                                       std::complex<double> C) {

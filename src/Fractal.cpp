@@ -1,4 +1,5 @@
-#include "Fractal.h"
+#include <Fractal.h>
+#include <utils.h>
 
 int Fractal::getMaxIterations() const { return max_iterations_; }
 int Fractal::getIterations(std::complex<double> C) {
@@ -21,19 +22,16 @@ int Fractal::getIterations(std::complex<double> C) {
   return max_iterations_;
 }
 
-std::string formatDouble(double Double) {
-  std::stringstream Stream;
-  Stream.setf(std::ios::fixed);
-  Stream.precision(1);
-  Stream << Double;
-  return Stream.str();
-}
-
+/**
+ * Formats the area as (left, right, top, bottom) coordinates to display to the
+ * user.
+ */
 std::string Fractal::getZoomAreaString() {
   Area<double> A = getArea();
-  return "(" + formatDouble(A.getXMin()) + "," + formatDouble(A.getXMax()) +
-         "," + formatDouble(A.getYMin()) + "," + formatDouble(A.getYMax()) +
-         ")";
+  return "(" + utils::formatDouble(A.getXMin()) + "," +
+         utils::formatDouble(A.getXMax()) + "," +
+         utils::formatDouble(A.getYMin()) + "," +
+         utils::formatDouble(A.getYMax()) + ")";
 }
 
 Fractal::Fractal(int MaxIterations) : max_iterations_(MaxIterations) {}

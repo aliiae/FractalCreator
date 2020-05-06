@@ -1,4 +1,4 @@
-#include "Controller.h"
+#include <Controller.h>
 Controller::Controller(std::shared_ptr<Fractal> Fractal)
     : fractal_(std::move(Fractal)) {}
 bool Controller::changeZoom(SDL_Event &Event) {

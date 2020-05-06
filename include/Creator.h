@@ -1,13 +1,13 @@
 #ifndef FRACTALCREATOR_INCLUDE_CREATOR_H
 #define FRACTALCREATOR_INCLUDE_CREATOR_H
 
-#include "Controller.h"
-#include "Fractal.h"
-#include "Renderer.h"
-#include "utils.h"
+#include <Controller.h>
+#include <Fractal.h>
+#include <Renderer.h>
 #include <future>
 #include <string>
 #include <utility>
+#include <utils.h>
 #include <vector>
 
 class Creator {

@@ -1,7 +1,7 @@
 #ifndef FRACTALCREATOR_INCLUDE_MANDELBROTSET_H
 #define FRACTALCREATOR_INCLUDE_MANDELBROTSET_H
 
-#include "Fractal.h"
+#include <Fractal.h>
 
 class MandelbrotSet : public Fractal {
 public:

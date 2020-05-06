@@ -1,4 +1,4 @@
-#include "Creator.h"
+#include <Creator.h>
 #include <future>
 
 Creator::Creator(int Width, int Height, int MaxIterations,
