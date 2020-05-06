@@ -11,8 +11,7 @@ Creator::Creator(int Width, int Height, int MaxIterations, std::shared_ptr<Fract
 /**
  * Calculate Bernstein polynomials mapping an integer to a continuous RGB space.
  * A modified version of
- * https://solarianprogrammer.com/2013/02/28/mandelbrot-set-cpp-11: r(t) = 8.5 *
- * (1 - t)**3 * t; g(t) = 15 * (1 - t)**2 * t**2; b(t) = 9 * (1 - t) * t**3
+ * https://solarianprogrammer.com/2013/02/28/mandelbrot-set-cpp-11
  */
 utils::RGB Creator::toRgb(double T) {
   return utils::RGB{(int)(8.5 * (1 - T) * (1 - T) * (1 - T) * T * 255),

@@ -3,11 +3,20 @@
 int Fractal::getMaxIterations() const { return max_iterations_; }
 int Fractal::getIterations(std::complex<double> C) {
   std::complex<double> Z = C;
+  std::complex<double> OrbitReference = Z;
+  int OrbitCounter = 16;
   for (int Iteration = 0; Iteration < max_iterations_; ++Iteration) {
-    Z = calculateRecurrence(Z, C);
-    if (abs(Z) >= 2.0) {
-      return Iteration;
-    }
+	if (abs(Z) >= 2.0) {
+	  return Iteration;
+	}
+	Z = calculateRecurrence(Z, C);
+	if (OrbitReference==Z) {
+	  return max_iterations_;
+	}
+	if (OrbitCounter==Iteration) {
+	  OrbitReference = Z;
+	  OrbitCounter += 8;
+	}
   }
   return max_iterations_;
 }
