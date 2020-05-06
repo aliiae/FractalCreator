@@ -1,7 +1,7 @@
 #include "BurningShip.h"
 
 std::complex<double> BurningShip::calculateRecurrence(std::complex<double> Z,
-													  std::complex<double> C) {
+                                                      std::complex<double> C) {
   Z = abs(Z.real()) + ImaginaryOne * abs(Z.imag());
   return Z * Z + C;
 }

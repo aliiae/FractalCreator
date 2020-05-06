@@ -1,10 +1,10 @@
 #ifndef FRACTALCREATOR_INCLUDE_CREATOR_H
 #define FRACTALCREATOR_INCLUDE_CREATOR_H
 
-#include "Fractal.h"
-#include "utils.h"
 #include "Controller.h"
+#include "Fractal.h"
 #include "Renderer.h"
+#include "utils.h"
 #include <future>
 #include <string>
 #include <utility>
@@ -15,6 +15,7 @@ public:
   Creator(int Width, int Height, int MaxIterations,
           std::shared_ptr<Fractal> Fractal);
   std::vector<unsigned char> &getPixels();
+
 private:
   int width_;
   int height_;

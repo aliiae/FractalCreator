@@ -8,7 +8,7 @@ public:
   void setArea(Area<double> &FractalArea) override;
   Area<double> getArea() override;
   std::complex<double> calculateRecurrence(std::complex<double> Z,
-										   std::complex<double> C) override;
+                                           std::complex<double> C) override;
   std::string getName() override;
 
 private:
@@ -17,4 +17,4 @@ private:
   std::string name_{"Burning Ship"};
 };
 
-#endif //FRACTALCREATOR_INCLUDE_BURNINGSHIP_H
+#endif // FRACTALCREATOR_INCLUDE_BURNINGSHIP_H

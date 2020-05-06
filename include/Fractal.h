@@ -10,6 +10,7 @@ class Fractal {
 public:
   explicit Fractal(int MaxIterations);
   virtual ~Fractal() = default;
+
   virtual Area<double> getArea() = 0;
   virtual void setArea(Area<double> &NewArea) = 0;
   std::string getZoomAreaString();
@@ -19,7 +20,6 @@ public:
 
   int getIterations(std::complex<double> C);
   int getMaxIterations() const;
-
 
 protected:
   int max_iterations_;
